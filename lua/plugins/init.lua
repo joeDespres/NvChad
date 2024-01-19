@@ -2,6 +2,7 @@
 -- List of all default plugins & their definitions
 local default_plugins = {
 
+{ "EdenEast/nightfox.nvim" }, 
   "nvim-lua/plenary.nvim",
 
   {
