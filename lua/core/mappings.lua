@@ -297,7 +297,7 @@ M.telescope = {
 }
 
 M.nvterm = {
-  plugin = true,
+  plugin = false,
 
   t = {
     -- toggle in terminal mode
@@ -347,19 +347,6 @@ M.nvterm = {
     },
 
     -- new
-    ["<leader>h"] = {
-      function()
-        require("nvterm.terminal").new "horizontal"
-      end,
-      "New horizontal term",
-    },
-
-    ["<leader>v"] = {
-      function()
-        require("nvterm.terminal").new "vertical"
-      end,
-      "New vertical term",
-    },
   },
 }
 
@@ -410,7 +397,7 @@ M.gitsigns = {
 
   n = {
     -- Navigation through hunks
-    ["]c"] = {
+    ["<leader>hn"] = {
       function()
         if vim.wo.diff then
           return "]c"
@@ -453,18 +440,32 @@ M.gitsigns = {
       "delete chunk",
     },
 
+    ["<leader>hs"] = {
+      function()
+        require("gitsigns").stage_hunk()
+      end,
+      "stage buffer",
+    },
+
     ["<leader>ha"] = {
       function()
         require("gitsigns").stage_buffer()
       end,
-      "Reset hunk",
+      "stage buffer",
     },
 
     ["<leader>hp"] = {
       function()
-        require("gitsigns").preview_hunk()
-      end,
-      "Preview hunk",
+        local user_input = vim.fn.input("Press Enter to run `git push`")
+        local git_cmd = '!git push'
+          print(user_input)
+        if (user_input == "") then
+          vim.api.nvim_command(git_cmd)
+        else
+          print("Execution canceled")
+        end
+		end,
+      "push",
     },
 
     ["<leader>hc"] = {
