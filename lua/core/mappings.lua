@@ -454,7 +454,7 @@ M.gitsigns = {
       "stage buffer",
     },
 
-    ["<leader>hp"] = {
+    ["<leader>hg"] = {
       function()
         local user_input = vim.fn.input("Press Enter to run `git push`")
         local git_cmd = '!git push'
@@ -468,6 +468,13 @@ M.gitsigns = {
       "push",
     },
 
+    ["<leader>hm"] = {
+      function()
+			local git_cmd = '!git commit --amend --no-edit'
+			vim.api.nvim_command(git_cmd)
+		end,
+      "git commit",
+    },
     ["<leader>hc"] = {
       function()
 			local commit_message = vim.fn.input("Commit message > ")
