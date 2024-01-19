@@ -42,6 +42,11 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
 
+   ["<C-u>"] = {"<C-u>zz", "center on control u"},
+   ["<C-d>"] = {"<C-d>zz", "center on control d"},
+   ["n"] = {"nzzzv", "keep search terms in the middle"},
+   ["N"] = {"Nzzzv", "keep search terms in the middle"},
+
     -- new buffer
     ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
     ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
@@ -272,12 +277,11 @@ M.telescope = {
     -- find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
-    ["<leader>fw"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
+    ["<leader><leader>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
-
     -- git
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "Git commits" },
     ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "Git status" },
@@ -435,21 +439,44 @@ M.gitsigns = {
     },
 
     -- Actions
-    ["<leader>rh"] = {
+    ["<leader>hr"] = {
       function()
         require("gitsigns").reset_hunk()
       end,
       "Reset hunk",
     },
 
-    ["<leader>ph"] = {
+    ["<leader>hd"] = {
+      function()
+        require("gitsigns").toggle_deleted()
+      end,
+      "delete chunk",
+    },
+
+    ["<leader>ha"] = {
+      function()
+        require("gitsigns").stage_buffer()
+      end,
+      "Reset hunk",
+    },
+
+    ["<leader>hp"] = {
       function()
         require("gitsigns").preview_hunk()
       end,
       "Preview hunk",
     },
 
-    ["<leader>gb"] = {
+    ["<leader>hc"] = {
+      function()
+			local commit_message = vim.fn.input("Commit message > ")
+			local git_cmd = '!git commit -m "' .. commit_message .. '"'
+			vim.api.nvim_command(git_cmd)
+		end,
+      "git commit",
+    },
+
+    ["<leader>hb"] = {
       function()
         package.loaded.gitsigns.blame_line()
       end,
