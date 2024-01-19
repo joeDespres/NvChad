@@ -457,7 +457,7 @@ M.gitsigns = {
     ["<leader>hg"] = {
       function()
         local user_input = vim.fn.input("Press Enter to run `git push`")
-        local git_cmd = '!git push'
+        local git_cmd = '!git push' -- TODO remember an ssh key
           print(user_input)
         if (user_input == "") then
           vim.api.nvim_command(git_cmd)
