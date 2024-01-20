@@ -1,3 +1,3 @@
 fix telescope
 rust linting
-r
+format lua on save todo make the code robust to missing stylua `cargo install stylua`
