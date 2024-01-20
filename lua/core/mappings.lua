@@ -42,10 +42,10 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
 
-   ["<C-u>"] = {"<C-u>zz", "center on control u"},
-   ["<C-d>"] = {"<C-d>zz", "center on control d"},
-   ["n"] = {"nzzzv", "keep search terms in the middle"},
-   ["N"] = {"Nzzzv", "keep search terms in the middle"},
+    ["<C-u>"] = { "<C-u>zz", "center on control u" },
+    ["<C-d>"] = { "<C-d>zz", "center on control d" },
+    ["n"] = { "nzzzv", "keep search terms in the middle" },
+    ["N"] = { "Nzzzv", "keep search terms in the middle" },
 
     -- new buffer
     ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
@@ -456,31 +456,31 @@ M.gitsigns = {
 
     ["<leader>hg"] = {
       function()
-        local user_input = vim.fn.input("Press Enter to run `git push`")
-        local git_cmd = '!git push' -- TODO remember an ssh key
-          print(user_input)
-        if (user_input == "") then
+        local user_input = vim.fn.input "Press Enter to run `git push`"
+        local git_cmd = "!git push" -- TODO remember an ssh key
+        print(user_input)
+        if user_input == "" then
           vim.api.nvim_command(git_cmd)
         else
-          print("Execution canceled")
+          print "Execution canceled"
         end
-		end,
+      end,
       "push",
     },
 
     ["<leader>hm"] = {
       function()
-			local git_cmd = '!git commit --amend --no-edit'
-			vim.api.nvim_command(git_cmd)
-		end,
+        local git_cmd = "!git commit --amend --no-edit"
+        vim.api.nvim_command(git_cmd)
+      end,
       "git commit",
     },
     ["<leader>hc"] = {
       function()
-			local commit_message = vim.fn.input("Commit message > ")
-			local git_cmd = '!git commit -m "' .. commit_message .. '"'
-			vim.api.nvim_command(git_cmd)
-		end,
+        local commit_message = vim.fn.input "Commit message > "
+        local git_cmd = '!git commit -m "' .. commit_message .. '"'
+        vim.api.nvim_command(git_cmd)
+      end,
       "git commit",
     },
 
