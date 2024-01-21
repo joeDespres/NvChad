@@ -12,6 +12,11 @@ M.general = {
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
   },
 }
+-- M.toggleterm = {
+--   n = {
+--     ["<C-\\"] = function() end,
+--   },
+-- }
 M.telescope = {
   plugin = true,
   n = {

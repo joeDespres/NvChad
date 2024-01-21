@@ -8,8 +8,13 @@ local plugins = {
     end,
     config = function(_, opts)
       require("nightfox").setup(opts)
-      vim.cmd "colorscheme carbonfox"
+      vim.cmd "colorscheme terafox"
     end,
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = true,
   },
   {
     "williamboman/mason.nvim",
