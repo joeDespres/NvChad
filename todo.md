@@ -1,3 +1,6 @@
-fix telescope
-rust linting
-format lua on save todo make the code robust to missing stylua `cargo install stylua`
+- fix telescope escape
+- keymapping in its proper file
+- double tap backspace deletes one previous word
+- gitlinker
+- diagnostic sign
+- format lua on save todo make the code robust to missing stylua `cargo install stylua`
