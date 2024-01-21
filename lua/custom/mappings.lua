@@ -90,4 +90,10 @@ M.gitsigns = {
     },
   },
 }
+
+M.disabled = {
+  n = {
+    ["<leader>h"] = "",
+  },
+}
 return M
