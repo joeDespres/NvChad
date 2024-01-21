@@ -297,7 +297,7 @@ M.telescope = {
 }
 
 M.nvterm = {
-  plugin = false,
+  plugin = true,
 
   t = {
     -- toggle in terminal mode
