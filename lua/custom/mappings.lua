@@ -12,17 +12,19 @@ M.general = {
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
   },
 }
--- M.toggleterm = {
---   n = {
---     ["<C-\\"] = function() end,
---   },
--- }
+M.toggleterm = {
+  n = {
+    ["<C-\\"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+    ["<C-4"] = { "<cmd> hea <CR>", "toggle term" },
+  },
+}
 M.telescope = {
   plugin = true,
   n = {
     ["<leader><leader>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
   },
 }
+
 M.gitsigns = {
   plugin = true,
 
