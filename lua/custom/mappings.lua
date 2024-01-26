@@ -3,20 +3,24 @@ require "core.mappings"
 local M = {}
 
 M.general = {
-  i = {},
+  i = {
+    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+  },
   n = {
 
+    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
     ["n"] = { "nzzzv", "keep search terms in the middle" },
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
   },
-}
-M.toggleterm = {
-  n = {
-    ["<C-\\"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
-    ["<C-4"] = { "<cmd> hea <CR>", "toggle term" },
+  t = {
+    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
   },
+}
+
+M.toggleterm = {
+  n = {},
 }
 M.telescope = {
   plugin = true,
