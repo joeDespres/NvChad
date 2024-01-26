@@ -3,24 +3,54 @@ require "core.mappings"
 local M = {}
 
 M.general = {
-  i = {
-    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
-  },
+  i = {},
   n = {
-
-    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
     ["n"] = { "nzzzv", "keep search terms in the middle" },
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
   },
+  t = {},
+}
+
+M.tabufline = {
+  plugin = true,
+
+  n = {
+    -- cycle through buffers
+    ["<C-l>"] = {
+      function()
+        require("nvchad.tabufline").tabuflineNext()
+      end,
+      "Goto next buffer",
+    },
+
+    ["<C-h>"] = {
+      function()
+        require("nvchad.tabufline").tabuflinePrev()
+      end,
+      "Goto prev buffer",
+    },
+
+    -- close buffer + hide terminal buffer
+    ["<C-w>"] = {
+      function()
+        require("nvchad.tabufline").close_buffer()
+      end,
+      "Close buffer",
+    },
+  },
+}
+M.toggleterm = {
+  n = {
+    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+  },
   t = {
     ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
   },
-}
-
-M.toggleterm = {
-  n = {},
+  i = {
+    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+  },
 }
 M.telescope = {
   plugin = true,
