@@ -26,4 +26,4 @@ sudo apt install nodejs -y
 
 git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100 -y
 # cleanup
-rm stylua-linux.zip ripgrep_13.0.0_amd64.deb bottom_0.9.4_amd64.deb stylua-linux.zip
+rm stylua-linux.zip ripgrep_13.0.0_amd64.deb bottom_0.9.4_amd64.deb
