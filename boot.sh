@@ -1,5 +1,5 @@
 # bin/bash
-if [ ! -e "~/.gitconfig" ]; then
+if ! [ -f "~/.gitconfig" ]; then
     echo "you need to have git setup"
     exit 1
 fi
