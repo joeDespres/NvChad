@@ -24,6 +24,6 @@ sudo apt install clang -y
 sudo apt install python3.8-venv -y
 sudo apt install nodejs -y
 
-git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100 -y
+git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100
 # cleanup
 rm stylua-linux.zip ripgrep_13.0.0_amd64.deb bottom_0.9.4_amd64.deb
