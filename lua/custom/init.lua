@@ -2,6 +2,7 @@ local opt = vim.opt
 
 opt.scrolloff = 10
 opt.colorcolumn = "80"
+opt.tabstop = 4
 opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
