@@ -94,7 +94,10 @@ local default_plugins = {
     init = function()
       -- load gitsigns only when a git file is opened
       vim.api.nvim_create_autocmd({ "BufRead" }, {
-        group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
+        group = vim.api.nvim_create_augroup(
+          "GitSignsLazyLoad",
+          { clear = true }
+        ),
         callback = function()
           vim.fn.jobstart({ "git", "-C", vim.loop.cwd(), "rev-parse" }, {
             on_exit = function(_, return_code)
@@ -177,7 +180,10 @@ local default_plugins = {
 
           -- setup cmp for autopairs
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-          require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
+          require("cmp").event:on(
+            "confirm_done",
+            cmp_autopairs.on_confirm_done()
+          )
         end,
       },
 

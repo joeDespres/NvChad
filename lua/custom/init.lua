@@ -22,6 +22,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     local format = "silent! !stylua " .. current_filename
     vim.api.nvim_command(format)
     -- Simulate pressing the Enter key
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", true)
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<CR>", true, false, true),
+      "n",
+      true
+    )
   end,
 })
