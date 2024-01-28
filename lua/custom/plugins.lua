@@ -52,6 +52,22 @@ local plugins = {
       },
     },
   },
+
+  {
+    "pocco81/auto-save.nvim",
+    config = function()
+      require "auto-save.nvim"
+    end,
+    opts = {
+      execution_message = {
+        message = function()
+          return ("Autosaved at " .. vim.fn.strftime "%H:%M:%S")
+        end,
+        cleaning_interval = 5000,
+      },
+      trigger_events = { "FocusLost", "Bufleave", "ExitPre" },
+    },
+  },
   {
     "jay-babu/mason-nvim-dap.nvim",
     event = "VeryLazy",
