@@ -7,6 +7,10 @@ opt.wrap = false
 opt.swapfile = false
 opt.shell = "/bin/bash"
 
+vim.api.nvim_create_autocmd({ "FocusLost" }, {
+  command = "silent! wa",
+})
+
 vim.api.nvim_create_augroup("AutoFormat", {})
 
 vim.api.nvim_create_autocmd("BufWritePost", {
