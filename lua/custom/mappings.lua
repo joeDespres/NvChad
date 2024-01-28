@@ -47,6 +47,7 @@ M.toggleterm = {
     ["<C-]>"] = {
       function()
         local current_file_path = vim.fn.expand "%:p"
+        vim.api.nvim_command ":w"
         local cmd
         if string.match(current_file_path, "%.cpp$") then
           cmd = "g++ " .. current_file_path .. " -o tmp_cpp && ./tmp_cpp"
@@ -161,6 +162,7 @@ M.gitsigns = {
 M.disabled = {
   n = {
     ["<leader>h"] = "",
+    ["<C-x>"] = "",
   },
 }
 return M
