@@ -44,6 +44,19 @@ M.tabufline = {
 M.toggleterm = {
   n = {
     ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+    ["<C-]>"] = {
+      function()
+        local current_file_path = vim.fn.expand "%:p"
+        local cmd
+        if string.match(current_file_path, "%.cpp$") then
+          cmd = "g++ " .. current_file_path .. " -o tmp_cpp && ./tmp_cpp"
+          require("toggleterm").exec(cmd)
+        else
+          print("echo not set up for file type" .. current_file_path)
+        end
+      end,
+      "git commit",
+    },
   },
   t = {
     ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },

@@ -5,6 +5,7 @@ opt.colorcolumn = "80"
 opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
+opt.shell = "/bin/bash"
 
 vim.api.nvim_create_augroup("AutoFormat", {})
 
