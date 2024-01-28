@@ -3,6 +3,8 @@ local opt = vim.opt
 opt.scrolloff = 10
 opt.colorcolumn = "80"
 opt.relativenumber = true
+opt.wrap = false
+opt.swapfile = false
 
 vim.api.nvim_create_augroup("AutoFormat", {})
 

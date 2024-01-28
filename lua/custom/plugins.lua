@@ -44,6 +44,7 @@ local plugins = {
     opts = {
       ensure_installed = {
         "rust-analyzer",
+        "lua-language-server",
         "clangd",
         "clang-format",
         "codelldb",

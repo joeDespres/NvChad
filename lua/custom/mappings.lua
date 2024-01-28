@@ -42,7 +42,6 @@ M.tabufline = {
   },
 }
 M.toggleterm = {
-  plugin = true,
   n = {
     ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
   },
