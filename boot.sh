@@ -1,8 +1,4 @@
 # bin/bash
-if ! [ -f "~/.gitconfig" ]; then
-    echo "you need to have git setup"
-    exit 1
-fi
 
 # install nvim 
 curl -LO https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage
