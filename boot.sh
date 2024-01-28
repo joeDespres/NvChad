@@ -1,4 +1,8 @@
 # bin/bash
+if [ ! -d ".git" ]; then
+    echo "you need to have git installed"
+    exit 1
+fi
 # install nvim 
 curl -LO https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage
 chmod u+x nvim.appimage
@@ -23,6 +27,6 @@ sudo apt install clang -y
 sudo apt install python3.8-venv -y
 sudo apt install nodejs -y
 
-git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100
+git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100 -y
 # cleanup
-rm stylua-linux.zip ripgrep_13.0.0_amd64.deb bottom_0.9.4_amd64.deb
+rm stylua-linux.zip ripgrep_13.0.0_amd64.deb bottom_0.9.4_amd64.deb stylua-linux.zip

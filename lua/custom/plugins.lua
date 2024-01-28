@@ -43,11 +43,12 @@ local plugins = {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "rust-analyzer",
-        "lua-language-server",
+        "bash-language-server",
         "clangd",
         "clang-format",
         "codelldb",
+        "lua-language-server",
+        "rust-analyzer",
       },
     },
   },
