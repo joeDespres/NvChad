@@ -41,9 +41,15 @@ M.tabufline = {
     },
   },
 }
+
 M.toggleterm = {
   n = {
-    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+    ["<C-\\>"] = {
+      function()
+        vim.api.nvim_command ":w"
+        vim.api.nvim_command "ToggleTerm <CR>"
+      end,
+    },
     ["<C-]>"] = {
       function()
         local current_file_path = vim.fn.expand "%:p"
@@ -60,10 +66,20 @@ M.toggleterm = {
     },
   },
   t = {
-    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+    ["<C-\\>"] = {
+      function()
+        vim.api.nvim_command ":w"
+        vim.api.nvim_command "ToggleTerm <CR>"
+      end,
+    },
   },
   i = {
-    ["<C-\\>"] = { "<cmd> ToggleTerm <CR>", "toggle term" },
+    ["<C-\\>"] = {
+      function()
+        vim.api.nvim_command ":w"
+        vim.api.nvim_command "ToggleTerm <CR>"
+      end,
+    },
   },
 }
 M.telescope = {
