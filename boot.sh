@@ -23,6 +23,7 @@ sudo apt-get install fuse -y
 sudo apt install clang -y
 sudo apt install python3.8-venv -y
 sudo apt install nodejs -y
+sudo apt install jq -y
 apt-get install -y npm
 
 git clone git@github.com:joeDespres/NvChad.git ~/.config/nvim --depth 100

@@ -30,3 +30,16 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     )
   end,
 })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.json",
+  group = "AutoFormat",
+  callback = function()
+    vim.api.nvim_command "%!jq"
+    -- Simulate pressing the Enter key
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<CR>", true, false, true),
+      "n",
+      true
+    )
+  end,
+})
