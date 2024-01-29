@@ -47,6 +47,7 @@ local plugins = {
         "clangd",
         "clang-format",
         "codelldb",
+        "json-lsp",
         "lua-language-server",
         "rust-analyzer",
       },
