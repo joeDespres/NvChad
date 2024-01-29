@@ -46,7 +46,13 @@ M.toggleterm = {
   n = {
     ["<C-\\>"] = {
       function()
-        vim.api.nvim_command ":w"
+        local buftype = vim.bo[0].buftype
+        local filename = vim.fn.bufname "%"
+        if buftype ~= "" and buftype ~= "acwrite" or filename == "" then
+          print "Current buffer cannot be written."
+        else
+          vim.api.nvim_command ":w"
+        end
         vim.api.nvim_command "ToggleTerm <CR>"
       end,
     },
@@ -65,20 +71,25 @@ M.toggleterm = {
       "git commit",
     },
   },
-  t = {
-    ["<C-\\>"] = {
-      function()
-        vim.api.nvim_command ":w"
-        vim.api.nvim_command "ToggleTerm <CR>"
-      end,
-    },
-  },
   i = {
     ["<C-\\>"] = {
       function()
-        vim.api.nvim_command ":w"
+        local buftype = vim.bo[0].buftype
+        local filename = vim.fn.bufname "%"
+        if buftype ~= "" and buftype ~= "acwrite" or filename == "" then
+          print "Current buffer cannot be written."
+        else
+          vim.api.nvim_command ":w"
+        end
         vim.api.nvim_command "ToggleTerm <CR>"
       end,
+    },
+    t = {
+      ["<C-\\>"] = {
+        function()
+          vim.api.nvim_command "ToggleTerm <CR>"
+        end,
+      },
     },
   },
 }
