@@ -1,5 +1,19 @@
 local plugins = {
   {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "bash-language-server",
+        "clangd",
+        "clang-format",
+        "codelldb",
+        "json-lsp",
+        "lua-language-server",
+        "rust-analyzer",
+      },
+    },
+  },
+  {
     "EdenEast/nightfox.nvim",
     lazy = false, -- make sure we load this during startup as it is our main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
@@ -38,20 +52,6 @@ local plugins = {
           border = "Normal",
           background = "Normal",
         },
-      },
-    },
-  },
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "bash-language-server",
-        "clangd",
-        "clang-format",
-        "codelldb",
-        "json-lsp",
-        "lua-language-server",
-        "rust-analyzer",
       },
     },
   },
