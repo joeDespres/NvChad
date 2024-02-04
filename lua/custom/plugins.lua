@@ -9,10 +9,12 @@ local plugins = {
         "codelldb",
         "json-lsp",
         "lua-language-server",
+        "markdown",
         "rust-analyzer",
       },
     },
   },
+
   {
     "EdenEast/nightfox.nvim",
     lazy = false, -- make sure we load this during startup as it is our main colorscheme
@@ -26,7 +28,8 @@ local plugins = {
     end,
   },
   {
-	"ruifm/gitlinker.nvim"},
+    "ruifm/gitlinker.nvim",
+  },
   {
     "akinsho/toggleterm.nvim",
     cmd = "ToggleTerm",
@@ -117,6 +120,38 @@ local plugins = {
     config = function(_, opts)
       require("rust-tools").setup(opts)
     end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+  {
+    "folke/twilight.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+  {
+    "folke/twilight.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
   },
 }
 return plugins
