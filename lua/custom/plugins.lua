@@ -12,6 +12,8 @@ local plugins = {
     end,
   },
   {
+	"ruifm/gitlinker.nvim"},
+  {
     "akinsho/toggleterm.nvim",
     cmd = "ToggleTerm",
     opts = {

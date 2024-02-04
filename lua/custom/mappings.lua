@@ -13,6 +13,45 @@ M.general = {
   t = {},
 }
 
+M.gitlinker = {
+  n = {
+    ["<leader>hy"] = {
+      function()
+        require("gitlinker").get_buf_range_url(
+          "n",
+          { action_callback = require("gitlinker.actions").copy_to_clipboard }
+        )
+      end,
+    },
+    ["<leader>ht"] = {
+      function()
+        require("gitlinker").get_buf_range_url(
+          "n",
+          { action_callback = require("gitlinker.actions").open_in_browser }
+        )
+      end,
+    },
+  },
+  v = {
+    ["<leader>hy"] = {
+      function()
+        require("gitlinker").get_buf_range_url(
+          "v",
+          { action_callback = require("gitlinker.actions").copy_to_clipboard }
+        )
+      end,
+    },
+    ["<leader>ht"] = {
+      function()
+        require("gitlinker").get_buf_range_url(
+          "v",
+          { action_callback = require("gitlinker.actions").open_in_browser }
+        )
+      end,
+    },
+  },
+}
+
 M.tabufline = {
   plugin = true,
 

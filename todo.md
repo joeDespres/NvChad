@@ -1,4 +1,3 @@
 - fix telescope escape
 - double tap backspace deletes one previous word
-- gitlinker
 - diagnostic sign
