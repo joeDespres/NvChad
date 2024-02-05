@@ -72,12 +72,6 @@ M.tabufline = {
     },
 
     -- close buffer + hide terminal buffer
-    ["<C-x>"] = {
-      function()
-        require("nvchad.tabufline").close_buffer()
-      end,
-      "Close buffer",
-    },
   },
 }
 
