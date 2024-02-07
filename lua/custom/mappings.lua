@@ -157,13 +157,26 @@ M.gitsigns = {
 
   n = {
     -- Navigation through hunks
-    ["<leader>hn"] = {
+    ["<leader>hN"] = {
       function()
         if vim.wo.diff then
           return "]c"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
+        end)
+        return "<Ignore>"
+      end,
+      "Jump to next hunk",
+      opts = { expr = true },
+    },
+    ["<leader>hn"] = {
+      function()
+        if vim.wo.diff then
+          return "]c"
+        end
+        vim.schedule(function()
+          require("gitsigns").prev_hunk()
         end)
         return "<Ignore>"
       end,
