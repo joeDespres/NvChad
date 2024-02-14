@@ -78,6 +78,7 @@ local default_plugins = {
     end,
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
+    disable = { "markdown" },
     opts = function()
       return require "plugins.configs.treesitter"
     end,

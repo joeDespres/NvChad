@@ -6,7 +6,9 @@ opt.tabstop = 4
 opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
-opt.shell = "/bin/bash"
+opt.shell = "/bin/zsh"
+
+vim.cmd [[autocmd FileType markdown set columns=120 wrap linebreak]]
 
 vim.api.nvim_create_autocmd({ "FocusLost" }, {
   command = "silent! wa",
