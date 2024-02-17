@@ -11,7 +11,6 @@ M.general = {
     -- navigate within insert mode
     ["<C-h>"] = { "<Left>", "Move left" },
     ["<C-l>"] = { "<Right>", "Move right" },
-    ["<C-j>"] = { "<Down>", "Move down" },
     ["<C-k>"] = { "<Up>", "Move up" },
   },
 
@@ -123,12 +122,6 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    ["<tab>"] = {
-      function()
-        require("nvchad.tabufline").tabuflineNext()
-      end,
-      "Goto next buffer",
-    },
 
     ["<S-tab>"] = {
       function()

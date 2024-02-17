@@ -9,6 +9,16 @@ opt.swapfile = false
 opt.shell = "/bin/zsh"
 
 vim.cmd [[autocmd FileType markdown set columns=120 wrap linebreak]]
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = {
+    "*/GastrographPackage/*",
+    "*/gastrographpackage/*",
+    "*/eng-infra/*",
+    "*/afs-projects/*",
+    "*/local-dev/*",
+  },
+  command = "Copilot disable",
+})
 
 vim.api.nvim_create_autocmd({ "FocusLost" }, {
   command = "silent! wa",
