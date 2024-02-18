@@ -22,11 +22,12 @@ local plugins = {
     opts = function()
       local opts = require "plugins.configs.treesitter"
       opts.ensure_installed = {
+        "javascript",
         "lua",
         "rust",
-        "javascript",
-        "typescript",
+        "sql",
         "tsx",
+        "typescript",
       }
       return opts
     end,
