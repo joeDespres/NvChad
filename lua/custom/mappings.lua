@@ -21,6 +21,12 @@ M.general = {
   t = {},
 }
 
+M.dadbodui = {
+  n = {
+    ["<leader>a"] = { "<cmd> DBUIToggle <CR>" },
+  },
+}
+
 M.gitlinker = {
   n = {
     ["<leader>hy"] = {

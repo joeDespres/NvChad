@@ -4,15 +4,32 @@ local plugins = {
     opts = {
       ensure_installed = {
         "bash-language-server",
-        "clangd",
         "clang-format",
+        "clangd",
         "codelldb",
+        "eslint-lsp",
         "json-lsp",
         "lua-language-server",
-        "markdown",
+        "prettierd",
         "rust-analyzer",
+        "tailwindcss-language-server",
+        "typescript-language-server",
       },
     },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function()
+      local opts = require "plugins.configs.treesitter"
+      opts.ensure_installed = {
+        "lua",
+        "rust",
+        "javascript",
+        "typescript",
+        "tsx",
+      }
+      return opts
+    end,
   },
   {
     "github/copilot.vim",
@@ -54,6 +71,26 @@ local plugins = {
   },
   {
     "ruifm/gitlinker.nvim",
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "html",
+      "javascript",
+      "javascriptreact",
+      "jsx",
+      "markdown",
+      "php",
+      "svelte",
+      "tsx",
+      "typescript",
+      "typescriptreact",
+      "vue",
+      "xml",
+    },
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
   },
   {
     "akinsho/toggleterm.nvim",
@@ -121,13 +158,12 @@ local plugins = {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = "VeryLazy",
     opts = function()
       return require "custom.configs.null-ls"
     end,
   },
-
   {
     "rust-lang/rust.vim",
     ft = "rust",
