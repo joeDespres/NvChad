@@ -8,7 +8,18 @@ opt.wrap = false
 opt.swapfile = false
 opt.shell = "/bin/zsh"
 
-vim.cmd [[autocmd FileType markdown set columns=120 wrap linebreak]]
+-- This autocmd sets the wrap and spell options to true for filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "*.txt", "*.tex", "*.typ", "gitcommit", "markdown" },
+  callback = function()
+    opt.wrap = true
+    opt.spell = true
+    opt.columns = 100
+    opt.linebreak = true
+  end,
+})
+
+-- disable copilot in certain dirs
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = {
     "*/GastrographPackage/*",
