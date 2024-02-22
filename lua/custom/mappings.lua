@@ -222,6 +222,7 @@ M.gitsigns = {
         print(user_input)
         if user_input == "" then
           vim.api.nvim_command(git_cmd)
+
         else
           print "Execution canceled"
         end
