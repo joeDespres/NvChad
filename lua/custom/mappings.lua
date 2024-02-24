@@ -222,7 +222,6 @@ M.gitsigns = {
         print(user_input)
         if user_input == "" then
           vim.api.nvim_command(git_cmd)
-
         else
           print "Execution canceled"
         end
@@ -231,16 +230,17 @@ M.gitsigns = {
     },
     ["<leader>hm"] = {
       function()
-        local git_cmd = "!git commit --amend --no-edit"
+        local git_cmd = "git commit --amend --no-edit"
         vim.api.nvim_command(git_cmd)
       end,
       "git commit",
     },
     ["<leader>hc"] = {
       function()
-        local commit_message = vim.fn.input "Commit message > "
+        local commit_message = vim.fn.input "Enter Commit Message > "
         local git_cmd = '!git commit -m "' .. commit_message .. '"'
         vim.api.nvim_command(git_cmd)
+        print "Commit Successful"
       end,
       "git commit",
     },
