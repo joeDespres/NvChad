@@ -27,6 +27,11 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
     "*/eng-infra/*",
     "*/afs-projects/*",
     "*/local-dev/*",
+    "*.txt",
+    "*.tex",
+    "*.typ",
+    "gitcommit",
+    "markdown",
   },
   command = "Copilot disable",
 })

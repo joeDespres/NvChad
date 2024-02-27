@@ -4,12 +4,7 @@ local M = {}
 
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
-vim.api.nvim_set_keymap(
-  "i",
-  "<C-J>",
-  'copilot#Accept("<CR>")',
-  { silent = true, expr = true }
-)
+
 M.general = {
   i = {},
   n = {
@@ -19,6 +14,35 @@ M.general = {
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
   },
   t = {},
+}
+
+M.copilot = {
+  i = {
+    ["<C-a>"] = {
+      function()
+        require("copilot.suggestion").accept()
+      end,
+      desc = "Accept Copilot suggestion",
+    },
+    ["<C-j>"] = {
+      function()
+        require("copilot.suggestion").accept_word()
+      end,
+      desc = "Accept Copilot word suggestion",
+    },
+    ["<C-k>"] = {
+      function()
+        require("copilot.suggestion").next()
+      end,
+      desc = "Next Copilot suggestion",
+    },
+    ["<C-i>"] = {
+      function()
+        require("copilot.suggestion").prev()
+      end,
+      desc = "Previous Copilot suggestion",
+    },
+  },
 }
 
 M.dadbodui = {
