@@ -5,9 +5,10 @@ M.ui = {
   telescope = { style = "bordered" }, -- borderless / bordered
   theme = "catppuccin",
   hl_override = {
+    -- works
     DiffChange = { fg = "orange" },
     DiffAdded = { fg = "purple" },
-    DiffRemoved = { fg = "red" },
+    -- not sure
   },
 }
 

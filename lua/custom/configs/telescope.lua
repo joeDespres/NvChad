@@ -45,7 +45,10 @@ local options = {
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     mappings = {
-      i = { ["<esc>"] = require("telescope.actions").close },
+      i = {
+        ["<esc>"] = require("telescope.actions").close,
+        ["<M-BS>"] = { "<C-w>", "Delete word" },
+      },
     },
   },
 
