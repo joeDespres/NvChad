@@ -168,6 +168,9 @@ M.toggleterm = {
 
 M.telescope = {
   plugin = true,
+  i = {
+    ["<M-BS>"] = { "<C-w>", "Delete word" },
+  },
   n = {
     ["<leader><leader>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
   },
@@ -258,7 +261,7 @@ M.gitsigns = {
     ["<leader>hc"] = {
       function()
         local commit_message = vim.fn.input "Enter Commit Message > "
-        local git_cmd = '!git commit -m "' .. commit_message .. '"'
+        local git_cmd = 'silent !git commit -m "' .. commit_message .. '"'
         vim.api.nvim_command(git_cmd)
         print "Commit Successful"
       end,
