@@ -22,7 +22,7 @@ sudo dpkg -i ripgrep_13.0.0_amd64.deb
 sudo apt-get install fuse -y
 sudo apt install clang -y
 sudo apt install python3.8-venv -y
-sudo apt install nodejs -y
+curl -fsSL https://deb.nodesource.com/setup_21.x | bash - &&apt-get install -y nodejs
 sudo apt install jq -y
 apt-get install -y npm
 
