@@ -3,6 +3,7 @@ local plugins = {
     "williamboman/mason.nvim",
     opts = function()
       local opts = require "plugins.configs.mason"
+      return opts
     end,
   },
   {
