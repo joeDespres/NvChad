@@ -277,6 +277,7 @@ M.disabled = {
   n = {
     ["<leader>h"] = "",
     ["<C-x>"] = "",
+    ["<M-h>"] = "<Nop>",
   },
 }
 return M

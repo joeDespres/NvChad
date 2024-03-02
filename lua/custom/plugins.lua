@@ -204,7 +204,7 @@ local plugins = {
       })
     end,
     opts = function()
-      return require("custom.configs.signs").gitsigns
+      return require("custom.configs.gitsigns").gitsigns
     end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "git")
