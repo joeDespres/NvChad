@@ -2,7 +2,7 @@ local M = {}
 local utils = require "core.utils"
 M.gitsigns = {
   signs = {
-    add = { text = "➕" },
+    add = { text = "✎ " },
     change = { text = "✎ " },
     delete = { text = "⤷" },
     topdelete = { text = "‾" },
