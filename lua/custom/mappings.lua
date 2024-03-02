@@ -6,7 +6,9 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 
 M.general = {
-  i = {},
+  i = {
+    ["<M-BS>"] = { "<C-w>", "Delete word" },
+  },
   n = {
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
@@ -35,12 +37,6 @@ M.copilot = {
         require("copilot.suggestion").next()
       end,
       desc = "Next Copilot suggestion",
-    },
-    ["<C-i>"] = {
-      function()
-        require("copilot.suggestion").prev()
-      end,
-      desc = "Previous Copilot suggestion",
     },
   },
 }
