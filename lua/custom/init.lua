@@ -73,7 +73,35 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   end,
 })
 
--- vim on exit copy vim  +buffername to clibboard
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.kdl",
+  group = "AutoFormat",
+  callback = function()
+    if not vim.fn.executable "format_kdl" then
+      vim.api.nvim_echo({
+        { "Note that `format_kdl` is a custom function", "WarningMsg" },
+      }, true, {})
+      return
+    end
+
+    local bufname = vim.fn.expand "%"
+    local bufnr = vim.api.nvim_get_current_buf()
+    local formatted_content = vim.fn.systemlist("format_kdl " .. bufname)
+
+    if string.find(formatted_content[1], "^Error parsing KDL") ~= nil then
+      vim.api.nvim_echo({
+        {
+          "Formatting failed with error: " .. formatted_content[1],
+          "ErrorMsg",
+        },
+      }, true, {})
+      return
+    end
+
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, formatted_content)
+  end,
+})
+
 vim.api.nvim_create_augroup("copyonclose", {})
 vim.api.nvim_create_autocmd("VimLeave", {
   pattern = "*",

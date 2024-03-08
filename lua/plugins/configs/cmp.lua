@@ -25,7 +25,7 @@ local formatting_style = {
     else
       icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
       item.kind =
-        string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
+          string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
     end
 
     return item
@@ -54,7 +54,7 @@ local options = {
     completion = {
       side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored")
           and 1
-        or 0,
+          or 0,
       winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None",
       scrollbar = false,
     },
@@ -75,7 +75,7 @@ local options = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-u>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {

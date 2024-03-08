@@ -26,6 +26,13 @@ M.copilot = {
       end,
       desc = "Accept Copilot suggestion",
     },
+    ["<C-f>"] = {
+      function()
+        print "copilot"
+        require("copilot.suggestion").accept_line()
+      end,
+      desc = "Accept Copilot word suggestion",
+    },
     ["<C-j>"] = {
       function()
         require("copilot.suggestion").accept_word()
@@ -280,7 +287,7 @@ M.disabled = {
   n = {
     ["<leader>h"] = "",
     ["<C-x>"] = "",
-    ["<M-h>"] = "<Nop>",
+    ["<A-h>"] = "",
   },
 }
 return M
