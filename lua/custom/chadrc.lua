@@ -3,6 +3,9 @@ M.plugins = "custom.plugins"
 M.mappings = require "custom.mappings"
 M.ui = {
   telescope = { style = "bordered" }, -- borderless / bordered
+  statusline = {
+    theme = "vscode_colored",
+  },
   theme = "catppuccin",
   hl_override = {
     -- works
