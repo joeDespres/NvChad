@@ -8,6 +8,7 @@ local options = {
     "json-lsp",
     "lua-language-server",
     "prettierd",
+    "pyright",
     "rust-analyzer",
     "tailwindcss-language-server",
     "typescript-language-server",
