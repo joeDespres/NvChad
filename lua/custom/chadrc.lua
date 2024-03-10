@@ -8,6 +8,9 @@ M.ui = {
   },
   theme = "catppuccin",
   hl_override = {
+    Visual = {
+      bg = "#5c3005",
+    },
     -- works
     DiffChange = { fg = "orange" },
     DiffAdded = { fg = "purple" },
