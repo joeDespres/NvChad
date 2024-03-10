@@ -101,22 +101,3 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, formatted_content)
   end,
 })
-
-vim.api.nvim_create_augroup("copyonclose", {})
-vim.api.nvim_create_autocmd("VimLeave", {
-  pattern = "*",
-  group = "copyonclose",
-  callback = function()
-    local current_buffer_path = vim.fn.expand "%"
-    if current_buffer_path ~= "" then
-      local current_line = vim.fn.line "."
-      local current_buffer_plus_line = "vim "
-        .. current_buffer_path
-        .. " +"
-        .. current_line
-      vim.api.nvim_command('let @+ = "' .. current_buffer_plus_line .. '"')
-    else
-      print "no file in buffer"
-    end
-  end,
-})

@@ -2,7 +2,7 @@ local plugins = {
   {
     "williamboman/mason.nvim",
     opts = function()
-      local opts = require "plugins.configs.mason"
+      local opts = require "custom.configs.mason"
       return opts
     end,
   },
