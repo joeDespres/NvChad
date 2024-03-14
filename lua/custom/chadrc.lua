@@ -7,13 +7,18 @@ M.ui = {
     theme = "vscode_colored",
   },
   theme = "catppuccin",
+
   hl_override = {
+    Comment = { italic = true },
     Visual = {
-      bg = "#5c3005",
+      bg = "#FFD8A6",
+      fg = "#191828", -- Set the foreground color to white
+      bold = true, -- Make the text bold
+      italic = false, -- Make the text not italic
     },
     -- works
-    DiffChange = { fg = "orange" },
-    DiffAdded = { fg = "purple" },
+    DiffChange = { fg = "#FF6F00" },
+    DiffAdded = { fg = "#8A2BE2" },
     -- not sure
   },
 }
