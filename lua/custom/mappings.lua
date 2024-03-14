@@ -141,6 +141,9 @@ M.toggleterm = {
         elseif string.match(current_file_path, "%.rs$") then
           cmd = '[ -f "Cargo.lock" ] && cargo run'
           require("toggleterm").exec(cmd)
+        elseif string.match(current_file_path, "%.py$") then
+          cmd = "python " .. current_file_path
+          require("toggleterm").exec(cmd)
         elseif string.match(current_file_path, "%.md$") then
           vim.api.nvim_command "MarkdownPreview"
         else

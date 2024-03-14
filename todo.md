@@ -1,7 +1,6 @@
 - python
 - migrate to [rustaceanvim](https://github.com/mrcjkb/rustaceanvim) https://github.com/mrcjkb/rustaceanvim/discussions/122
 - sync with remote
-- better highlight color 
 - save auto formatter
-
-
+- null ls python https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+- rainbow parentheses
