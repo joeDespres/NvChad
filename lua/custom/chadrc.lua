@@ -12,9 +12,9 @@ M.ui = {
     Comment = { italic = true },
     Visual = {
       bg = "#FFD8A6",
-      fg = "#191828", -- Set the foreground color to white
-      bold = true, -- Make the text bold
-      italic = false, -- Make the text not italic
+      fg = "#191828",
+      bold = true,
+      italic = false,
     },
     -- works
     DiffChange = { fg = "#FF6F00" },
