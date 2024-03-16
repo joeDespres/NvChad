@@ -199,6 +199,17 @@ M.dap = {
   },
 }
 
+M.neogit = {
+  n = {
+    ["<leader>ho"] = {
+      function()
+        local neogit = require "neogit"
+        neogit.open { kind = "split" }
+      end,
+    },
+  },
+}
+
 M.gitsigns = {
   plugin = true,
 
@@ -270,12 +281,9 @@ M.gitsigns = {
     },
     ["<leader>hc"] = {
       function()
-        local commit_message = vim.fn.input "Enter Commit Message > "
-        local git_cmd = 'silent !git commit -m "' .. commit_message .. '"'
-        vim.api.nvim_command(git_cmd)
-        print "Commit Successful"
+        local neogit = require "neogit"
+        neogit.open { "commit" }
       end,
-      "git commit",
     },
     ["<leader>hb"] = {
       function()
