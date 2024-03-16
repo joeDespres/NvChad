@@ -17,8 +17,8 @@ M.ui = {
       italic = false,
     },
     -- works
-    DiffChange = { fg = "#FF6F00" },
-    DiffAdded = { fg = "#8A2BE2" },
+    DiffChange = { fg = "orange" },
+    DiffAdded = { fg = "#ABE9B3" },
     -- not sure
   },
 }

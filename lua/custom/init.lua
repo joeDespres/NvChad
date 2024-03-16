@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
     "*/eng-infra/*",
     "*/afs-projects/*",
     "*/local-dev/*",
+    "*/work/boot.zsh",
     "*.txt",
     "*.tex",
     "*.typ",
@@ -53,9 +54,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
   nested = true,
   callback = function()
     if
-      #vim.api.nvim_list_wins() == 1
-      and vim.api.nvim_buf_get_name(0):match "NvimTree_" ~= nil
-      and is_modified_buffer_open(vim.fn.getbufinfo { bufmodified = 1 })
+        #vim.api.nvim_list_wins() == 1
+        and vim.api.nvim_buf_get_name(0):match "NvimTree_" ~= nil
+        and is_modified_buffer_open(vim.fn.getbufinfo { bufmodified = 1 })
         == false
     then
       vim.cmd "quit"
