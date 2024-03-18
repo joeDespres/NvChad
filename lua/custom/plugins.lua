@@ -21,7 +21,10 @@ local plugins = {
       return opts
     end,
   },
-  "R-nvim/cmp-r",
+  {
+
+    "R-nvim/cmp-r",
+  },
   {
     "R-nvim/R.nvim",
     config = function()
@@ -34,7 +37,44 @@ local plugins = {
             -- of files supported by R.nvim. This is an
             -- opportunity to create mappings local to buffers.
             -- lua require('r.run').start_R('R')
+            --
+            -- https://github.com/R-nvim/R.nvim/blob/0548b2906c535a408e4d81c0673aba10913c8356/lua/r/maps.lua#L187
             if vim.o.syntax ~= "rbrowser" then
+              vim.api.nvim_buf_set_keymap(
+                0,
+                "n",
+                "<leader>rs",
+                "<Cmd>lua require('r.run').start_R('R')<CR>",
+                {}
+              )
+              vim.api.nvim_buf_set_keymap(
+                0,
+                "n",
+                "<leader>rh",
+                "<Cmd>lua require('r.run').start_R('R').action('help')<CR>",
+                {}
+              )
+              vim.api.nvim_buf_set_keymap(
+                0,
+                "n",
+                "<leader>re",
+                "<Cmd>lua require('r.run').start_R('R').action('example')<CR>",
+                {}
+              )
+              vim.api.nvim_buf_set_keymap(
+                0,
+                "n",
+                "<leader>ra",
+                "<Cmd>lua require('r.run').start_R('R').action('args')<CR>",
+                {}
+              )
+              vim.api.nvim_buf_set_keymap(
+                0,
+                "n",
+                "<leader>ro",
+                "<Plug>ROBToggle",
+                {}
+              )
               vim.api.nvim_buf_set_keymap(
                 0,
                 "n",
