@@ -10,6 +10,7 @@ local options = {
     "mypy",
     "prettierd",
     "pyright",
+    "r-languageserver",
     "ruff",
     "rust-analyzer",
     "tailwindcss-language-server",

@@ -128,6 +128,7 @@ local options = {
     { name = "luasnip" },
     { name = "buffer" },
     { name = "nvim_lua" },
+    { name = "cmp_r" },
     { name = "path" },
   },
 }
