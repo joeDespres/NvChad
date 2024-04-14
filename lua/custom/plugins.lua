@@ -6,6 +6,7 @@ local plugins = {
       return opts
     end,
   },
+  "nvim-neotest/nvim-nio",
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function()
