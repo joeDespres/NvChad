@@ -4,6 +4,7 @@ local default_plugins = {
 
   "nvim-lua/plenary.nvim",
 
+  { "nvim-neotest/nvim-nio" },
   {
     "NvChad/base46",
     branch = "v2.0",
@@ -213,7 +214,11 @@ local default_plugins = {
       { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
       { "gbc", mode = "n",          desc = "Comment toggle current block" },
       { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb",  mode = "x",          desc = "Comment toggle blockwise (visual)" },
+      {
+        "gb",
+        mode = "x",
+        desc = "Comment toggle blockwise (visual)",
+      },
     },
     init = function()
       require("core.utils").load_mappings "comment"

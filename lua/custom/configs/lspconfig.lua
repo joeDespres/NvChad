@@ -15,7 +15,7 @@ lspconfig.clangd.setup {
 local servers = {
   "eslint",
   "tailwindcss",
-  "tsserver",
+  "ts_ls",
 }
 
 for _, lsp in ipairs(servers) do
