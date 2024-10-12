@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.json",
   group = "AutoFormat",
   callback = function()
-    vim.api.nvim_command "%!jq"
+    vim.api.nvim_command "silent %!jq"
   end,
 })
 
