@@ -13,12 +13,21 @@ M.general = {
     ["<M-BS>"] = { "<C-w>", "Delete word" },
   },
   n = {
+    ["<leader>mr"] = { ":CellularAutomaton make_it_rain<CR>", "Make it Rain" },
+    ["<leader>gl"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
     ["n"] = { "nzzzv", "keep search terms in the middle" },
     ["N"] = { "Nzzzv", "keep search terms in the middle" },
+    ["<leader>cl"] = {
+      function()
+        vim.cmd "normal! c"
+        vim.cmd "normal! oconsole.log("
+        vim.cmd 'normal! "0p'
+        vim.cmd "normal! i)"
+      end,
+    },
   },
-  t = {},
 }
 
 M.copilot = {

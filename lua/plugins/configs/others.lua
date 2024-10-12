@@ -22,6 +22,7 @@ M.blankline = {
   show_current_context_start = true,
 }
 
+
 M.luasnip = function(opts)
   require("luasnip").config.set_config(opts)
 
@@ -68,5 +69,6 @@ M.gitsigns = {
     utils.load_mappings("gitsigns", { buffer = bufnr })
   end,
 }
+
 
 return M

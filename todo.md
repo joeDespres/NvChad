@@ -3,3 +3,4 @@
 - sync with remote
 - save auto formatter
 - null ls python https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+- c-f to complete word and c-j to complete line

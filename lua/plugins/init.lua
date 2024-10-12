@@ -12,7 +12,10 @@ local default_plugins = {
       require("base46").load_all_highlights()
     end,
   },
-
+  {
+    "eandrju/cellular-automaton.nvim",
+    cmd = "CellularAutomaton", -- Lazy-load the plugin when the command is executed
+  },
   {
     "NvChad/ui",
     branch = "v2.0",
@@ -209,11 +212,11 @@ local default_plugins = {
   {
     "numToStr/Comment.nvim",
     keys = {
-      { "gcc", mode = "n",          desc = "Comment toggle current line" },
-      { "gc",  mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n",          desc = "Comment toggle current block" },
-      { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gcc", mode = "n", desc = "Comment toggle current line" },
+      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n", desc = "Comment toggle current block" },
+      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
       {
         "gb",
         mode = "x",
