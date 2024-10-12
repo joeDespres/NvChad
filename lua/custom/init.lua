@@ -22,6 +22,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- disable copilot in certain dirs
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = {
+    "*", --tmp disable
     "*/GastrographPackage/*",
     "*/gastrographpackage/*",
     "*/eng-infra/*",
