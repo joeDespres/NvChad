@@ -14,7 +14,7 @@ M.general = {
   },
   n = {
     ["<leader>mr"] = { ":CellularAutomaton make_it_rain<CR>", "Make it Rain" },
-    ["<leader>gl"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
+    ["<leader>ml"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
     ["n"] = { "nzzzv", "keep search terms in the middle" },
