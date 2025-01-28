@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*.kdl",
+  pattern = [[^(?!config\.kdl$).+\.kdl$]],
   group = "AutoFormat",
   callback = function()
     if not vim.fn.executable "format_kdl" then
