@@ -68,6 +68,26 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_augroup("AutoFormat", {})
 
 vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.tex",
+  group = vim.api.nvim_create_augroup("AutoCompileLatex", { clear = true }),
+  callback = function()
+    local filename = vim.fn.expand "%:r"
+    local cmd = string.format("pdflatex %s.tex 2>&1", filename)
+
+    local output = vim.fn.system(cmd)
+
+    if vim.v.shell_error ~= 0 then
+      vim.api.nvim_err_writeln("LaTeX Compilation Failed:\n" .. output)
+    else
+      vim.fn.jobstart(
+        string.format("open %s.pdf &", filename),
+        { detach = true }
+      )
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.json",
   group = "AutoFormat",
   callback = function()
