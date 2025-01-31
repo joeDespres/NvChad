@@ -91,12 +91,12 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.json",
   group = "AutoFormat",
   callback = function()
-    vim.api.nvim_command "silent %!jq"
+    vim.api.nvim_command "silent %!jq --indent 2 ."
   end,
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*.kdl",
+  pattern = [[^(?!config\.kdl$).+\.kdl$]],
   group = "AutoFormat",
   callback = function()
     if not vim.fn.executable "format_kdl" then

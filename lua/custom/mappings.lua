@@ -14,7 +14,7 @@ M.general = {
   },
   n = {
     ["<leader>mr"] = { ":CellularAutomaton make_it_rain<CR>", "Make it Rain" },
-    ["<leader>gl"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
+    ["<leader>ml"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
     ["<C-u>"] = { "<C-u>zz", "center on control u" },
     ["<C-d>"] = { "<C-d>zz", "center on control d" },
     ["n"] = { "nzzzv", "keep search terms in the middle" },
@@ -152,6 +152,9 @@ M.toggleterm = {
           require("toggleterm").exec(cmd)
         elseif string.match(current_file_path, "%.rs$") then
           cmd = '[ -f "Cargo.lock" ] && cargo run'
+          require("toggleterm").exec(cmd)
+        elseif string.match(current_file_path, "%.js$") then
+          cmd = "node " .. current_file_path
           require("toggleterm").exec(cmd)
         elseif string.match(current_file_path, "%.py$") then
           cmd = "python " .. current_file_path
