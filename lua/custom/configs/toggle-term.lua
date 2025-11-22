@@ -5,6 +5,13 @@ local options = {
   shading_factor = 1,
   start_in_insert = true,
   insert_mappings = true,
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.40
+    end
+  end,
   on_open = function()
     vim.cmd "silent! write"
   end,

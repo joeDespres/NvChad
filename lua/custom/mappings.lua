@@ -130,6 +130,14 @@ M.tabufline = {
 
 M.toggleterm = {
   n = {
+    ["<leader>tv"] = {
+      "<cmd> ToggleTerm direction=vertical <CR>",
+      "toggle vertical terminal",
+    },
+    ["<leader>th"] = {
+      "<cmd> ToggleTerm direction=horizontal <CR>",
+      "toggle horizontal terminal",
+    },
     ["<C-\\>"] = {
       function()
         local buftype = vim.bo[0].buftype

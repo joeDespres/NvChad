@@ -23,4 +23,9 @@ M.ui = {
   },
 }
 
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  command = "tabdo wincmd =",
+})
+
 return M
