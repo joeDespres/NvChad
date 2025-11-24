@@ -27,6 +27,28 @@ M.general = {
         vim.cmd "normal! i)"
       end,
     },
+    ["<leader>gg"] = {
+      function()
+        local function url_encode(str)
+          if str then
+            str = string.gsub(str, "\n", "\r\n")
+            str = string.gsub(str, "([^%w %-%_%.%~])", function(c)
+              return string.format("%%%02X", string.byte(c))
+            end)
+            str = string.gsub(str, " ", "+")
+          end
+          return str
+        end
+
+        local line = vim.api.nvim_get_current_line()
+        if line ~= "" then
+          local query = url_encode(line)
+          local url = "https://www.google.com/search?q=" .. query
+          vim.fn.system { "open", url }
+        end
+      end,
+      "Google Search",
+    },
   },
 }
 
