@@ -342,6 +342,63 @@ M.gitsigns = {
   },
 }
 
+local say_job_id = nil
+
+local function toggle_say(content)
+  if say_job_id then
+    vim.fn.jobstop(say_job_id)
+    say_job_id = nil
+    print "Speech stopped"
+  else
+    say_job_id = vim.fn.jobstart({ "say", "-r", "240" }, {
+      detach = true,
+      on_exit = function()
+        say_job_id = nil
+      end,
+      stdin = "pipe",
+    })
+    if say_job_id > 0 then
+      vim.api.nvim_chan_send(say_job_id, content)
+      vim.fn.chanclose(say_job_id, "stdin")
+      print "Speaking..."
+    else
+      print "Error starting speech"
+    end
+  end
+end
+
+M.say = {
+  n = {
+    ["<leader>sa"] = {
+      function()
+        local content = table.concat(
+          vim.api.nvim_buf_get_lines(0, 0, -1, false),
+          "\n"
+        )
+        toggle_say(content)
+      end,
+      "Toggle say whole buffer",
+    },
+    ["<leader>ss"] = {
+      function()
+        local content = vim.api.nvim_get_current_line()
+        toggle_say(content)
+      end,
+      "Toggle say current line",
+    },
+  },
+  v = {
+    ["<leader>ss"] = {
+      function()
+        vim.cmd 'noau normal! gv"vy'
+        local content = vim.fn.getreg "v"
+        toggle_say(content)
+      end,
+      "Toggle say selection",
+    },
+  },
+}
+
 M.disabled = {
   n = {
     ["<leader>h"] = "",
