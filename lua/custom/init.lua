@@ -7,6 +7,11 @@ opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
 opt.shell = "/bin/zsh"
+vim.o.autoread = true
+
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
+  command = "checktime"
+})
 
 -- This autocmd sets the wrap and spell options to true for filetypes
 vim.api.nvim_create_autocmd("FileType", {
