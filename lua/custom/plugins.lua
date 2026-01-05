@@ -295,7 +295,7 @@ local plugins = {
       workspaces = {
         {
           name = "docs",
-          path = "~/quickspec/docs/",
+          path = [[/Users/joe/Library/Mobile Documents/iCloud~md~obsidian/Documents/DocsQuickSpec]]
         },
       },
     },
