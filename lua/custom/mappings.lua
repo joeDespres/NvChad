@@ -3,10 +3,51 @@ local M = {}
 M.general = {
   i = {
     ["<M-BS>"] = { "<C-w>", "Delete word" },
+    -- Move line up/down in insert mode
+    ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", "Move line down" },
+    ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", "Move line up" },
   },
   n = {
     ["<leader>mr"] = { ":CellularAutomaton make_it_rain<CR>", "Make it Rain" },
     ["<leader>ml"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
+
+    -- Move lines up/down
+    ["<A-j>"] = { ":m .+1<CR>==" , "Move line down" },
+    ["<A-k>"] = { ":m .-2<CR>==", "Move line up" },
+
+    -- Duplicate line
+    ["<leader>d"] = { "yyp", "Duplicate line" },
+
+    -- Select all
+    ["<C-a>"] = { "ggVG", "Select all" },
+
+    -- Quick save
+    ["<leader>w"] = { "<cmd>w<CR>", "Save" },
+
+    -- Close buffer without closing window
+    ["<leader>x"] = { "<cmd>bp|bd #<CR>", "Close buffer" },
+
+    -- Split navigation with Ctrl
+    ["<C-Up>"] = { "<cmd>resize +2<CR>", "Resize up" },
+    ["<C-Down>"] = { "<cmd>resize -2<CR>", "Resize down" },
+    ["<C-Left>"] = { "<cmd>vertical resize -2<CR>", "Resize left" },
+    ["<C-Right>"] = { "<cmd>vertical resize +2<CR>", "Resize right" },
+
+    -- Zen mode
+    ["<leader>z"] = { "<cmd>ZenMode<CR>", "Zen mode" },
+
+    -- Quick find and replace word under cursor
+    ["<leader>rw"] = { ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace word" },
+
+    -- Keep cursor centered when scrolling
+    ["J"] = { "mzJ`z", "Join lines (centered)" },
+
+    -- Clear search highlight
+    ["<Esc>"] = { "<cmd>noh<CR>", "Clear highlights" },
+
+    -- Quick split
+    ["<leader>sv"] = { "<cmd>vsplit<CR>", "Vertical split" },
+    ["<leader>sh"] = { "<cmd>split<CR>", "Horizontal split" },
     -- Note: <C-u>, <C-d>, n, N centering mappings are in core/mappings.lua
     ["<leader>cl"] = {
       function()
@@ -330,6 +371,21 @@ M.say = {
       end,
       "Toggle say selection",
     },
+  },
+}
+
+M.visual = {
+  v = {
+    -- Move selected lines up/down
+    ["<A-j>"] = { ":m '>+1<CR>gv=gv", "Move selection down" },
+    ["<A-k>"] = { ":m '<-2<CR>gv=gv", "Move selection up" },
+
+    -- Stay in visual mode after indenting
+    ["<"] = { "<gv", "Indent left" },
+    [">"] = { ">gv", "Indent right" },
+
+    -- Paste without yanking replaced text
+    ["p"] = { '"_dP', "Paste without yank" },
   },
 }
 
