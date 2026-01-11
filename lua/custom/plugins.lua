@@ -47,7 +47,7 @@ local plugins = {
     cmd = "GitLink",
     opts = {},
     keys = {
-      { "<leader>hy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Copy git link" },
+      { "<leader>hy", "<cmd>GitLink<cr>",  mode = { "n", "v" }, desc = "Copy git link" },
       { "<leader>ht", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
   },
