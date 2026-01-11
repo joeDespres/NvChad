@@ -1,17 +1,17 @@
 local base = require "plugins.configs.lspconfig"
-local on_attach = require("plugins.configs.lspconfig").on_attach
-local capabilities = require("plugins.configs.lspconfig").capabilities
+local on_attach = base.on_attach
+local capabilities = base.capabilities
+local on_init = base.on_init
 
-local lspconfig = require "lspconfig"
-local util = require "lspconfig/util"
-
-lspconfig.clangd.setup {
+vim.lsp.config("clangd", {
   on_attach = function(client, bufnr)
     client.server_capabilities.signatureHelpProvider = false
     on_attach(client, bufnr)
   end,
+  on_init = on_init,
   capabilities = capabilities,
-}
+})
+
 local servers = {
   "eslint",
   "tailwindcss",
@@ -19,14 +19,23 @@ local servers = {
 }
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+  vim.lsp.config(lsp, {
     on_attach = on_attach,
+    on_init = on_init,
     capabilities = capabilities,
-  }
+  })
 end
 
-lspconfig.pyright.setup {
+vim.lsp.config("pyright", {
   on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
   filetypes = { "python" },
-}
+})
+
+-- Enable all servers
+vim.lsp.enable("clangd")
+for _, lsp in ipairs(servers) do
+  vim.lsp.enable(lsp)
+end
+vim.lsp.enable("pyright")

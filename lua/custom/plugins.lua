@@ -6,7 +6,6 @@ local plugins = {
       return opts
     end,
   },
-  "nvim-neotest/nvim-nio",
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function()
@@ -20,76 +19,6 @@ local plugins = {
         "typescript",
       }
       return opts
-    end,
-  },
-  {
-    "R-nvim/R.nvim",
-    config = function()
-      -- Create a table with the options to be passed to setup()
-      local opts = {
-        R_args = { "--quiet", "--no-save" },
-        -- Options to use radian
-        R_app = "radian",
-        R_cmd = "R",
-        --R_hl_term = 0,
-        bracketed_paste = true,
-        -- stop options for radian
-        --rconsole_width = 50,
-        --min_editor_width = 20,
-        hook = {
-          after_config = function()
-            -- This function will be called at the FileType event
-            -- of files supported by R.nvim. This is an
-            -- opportunity to create mappings local to buffers.
-            if vim.o.syntax ~= "rbrowser" then
-              --vim.api.nvim_buf_set_keymap(0, "n", "<localleader>rf", "<Plug>RStart", {})
-              vim.api.nvim_buf_set_keymap(
-                0,
-                "n",
-                "<Enter>",
-                "<Plug>RDSendLine",
-                {}
-              )
-              vim.api.nvim_buf_set_keymap(
-                0,
-                "v",
-                "<Enter>",
-                "<Plug>RSendSelection",
-                {}
-              )
-            end
-          end,
-        },
-        min_editor_width = 72,
-        rconsole_width = 78,
-        disable_cmds = {
-          "RClearConsole",
-          "RCustomStart",
-          "RSPlot",
-          "RSaveClose",
-        },
-      }
-      -- Check if the environment variable "R_AUTO_START" exists.
-      -- If using fish shell, you could put in your config.fish:
-      -- alias r "R_AUTO_START=true nvim"
-      --if vim.env.R_AUTO_START == "true" then
-      --opts.auto_start = 1
-      --end
-      require("r").setup(opts)
-    end,
-    lazy = false,
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup {
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-        },
-      }
     end,
   },
   {
@@ -114,7 +43,13 @@ local plugins = {
     end,
   },
   {
-    "ruifm/gitlinker.nvim",
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
+    keys = {
+      { "<leader>hy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Copy git link" },
+      { "<leader>ht", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
+    },
   },
   {
     "windwp/nvim-ts-autotag",
@@ -188,21 +123,27 @@ local plugins = {
     end,
   },
   {
-    "rust-lang/rust.vim",
-    ft = "rust",
+    "mrcjkb/rustaceanvim",
+    version = "^5",
+    ft = { "rust" },
     init = function()
-      vim.g.rustfmt_autosave = 1
-    end,
-  },
-  {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
-    dependencies = "neovim/nvim-lspconfig",
-    opts = function()
-      return require "custom.configs.rust-tools"
-    end,
-    config = function(_, opts)
-      require("rust-tools").setup(opts)
+      vim.g.rustaceanvim = {
+        server = {
+          on_attach = function(client, bufnr)
+            require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
+            if client.server_capabilities.signatureHelpProvider then
+              require("nvchad.signature").setup(client)
+            end
+          end,
+          default_settings = {
+            ["rust-analyzer"] = {
+              checkOnSave = {
+                command = "clippy",
+              },
+            },
+          },
+        },
+      }
     end,
   },
   {
@@ -237,39 +178,6 @@ local plugins = {
       "nvim-telescope/telescope.nvim",
     },
     config = true,
-  },
-
-  {
-    "lewis6991/gitsigns.nvim",
-    ft = { "gitcommit", "diff" },
-    init = function()
-      -- load gitsigns only when a git file is opened
-      vim.api.nvim_create_autocmd({ "BufRead" }, {
-        group = vim.api.nvim_create_augroup(
-          "GitSignsLazyLoad",
-          { clear = true }
-        ),
-        callback = function()
-          vim.fn.jobstart({ "git", "-C", vim.loop.cwd(), "rev-parse" }, {
-            on_exit = function(_, return_code)
-              if return_code == 0 then
-                vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
-                vim.schedule(function()
-                  require("lazy").load { plugins = { "gitsigns.nvim" } }
-                end)
-              end
-            end,
-          })
-        end,
-      })
-    end,
-    opts = function()
-      return require("custom.configs.gitsigns").gitsigns
-    end,
-    config = function(_, opts)
-      dofile(vim.g.base46_cache .. "git")
-      require("gitsigns").setup(opts)
-    end,
   },
   {
     "epwalsh/obsidian.nvim",

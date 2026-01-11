@@ -239,16 +239,16 @@ M.lspconfig = {
 
     ["[d"] = {
       function()
-        vim.diagnostic.goto_prev { float = { border = "rounded" } }
+        vim.diagnostic.jump { count = -1, float = { border = "rounded" } }
       end,
-      "Goto prev",
+      "Goto prev diagnostic",
     },
 
     ["]d"] = {
       function()
-        vim.diagnostic.goto_next { float = { border = "rounded" } }
+        vim.diagnostic.jump { count = 1, float = { border = "rounded" } }
       end,
-      "Goto next",
+      "Goto next diagnostic",
     },
 
     ["<leader>q"] = {
@@ -414,17 +414,16 @@ M.blankline = {
   n = {
     ["<leader>cc"] = {
       function()
-        local ok, start = require("indent_blankline.utils").get_current_context(
-          vim.g.indent_blankline_context_patterns,
-          vim.g.indent_blankline_use_treesitter_scope
-        )
-
-        if ok then
-          vim.api.nvim_win_set_cursor(
-            vim.api.nvim_get_current_win(),
-            { start, 0 }
-          )
-          vim.cmd [[normal! _]]
+        -- Jump to parent scope using treesitter
+        local ts_utils = require("nvim-treesitter.ts_utils")
+        local node = ts_utils.get_node_at_cursor()
+        if node then
+          local parent = node:parent()
+          if parent then
+            local start_row = parent:start()
+            vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+            vim.cmd [[normal! _]]
+          end
         end
       end,
 

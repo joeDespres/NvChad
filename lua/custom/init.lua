@@ -7,7 +7,6 @@ end
 
 opt.scrolloff = 10
 opt.colorcolumn = "80"
-opt.tabstop = 4
 opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
@@ -107,25 +106,6 @@ api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- disable copilot in certain dirs
-api.nvim_create_autocmd({ "BufEnter" }, {
-  group = augroup("CopilotDisable"),
-  pattern = {
-    "*", --tmp disable
-    "*/GastrographPackage/*",
-    "*/gastrographpackage/*",
-    "*/eng-infra/*",
-    "*/afs-projects/*",
-    "*/local-dev/*",
-    "*/work/boot.zsh",
-    "*.txt",
-    "*.tex",
-    "*.typ",
-    "gitcommit",
-    "markdown",
-  },
-  command = "Copilot disable",
-})
 
 api.nvim_create_autocmd({ "FocusLost" }, {
   command = "silent! wa",
@@ -176,8 +156,11 @@ api.nvim_create_autocmd("BufWritePost", {
     if vim.v.shell_error ~= 0 then
       vim.api.nvim_err_writeln("LaTeX Compilation Failed:\n" .. output)
     else
+      local open_cmd = vim.fn.has "mac" == 1 and "open"
+        or vim.fn.has "unix" == 1 and "xdg-open"
+        or "start"
       vim.fn.jobstart(
-        { "open", filename .. ".pdf" },
+        { open_cmd, filename .. ".pdf" },
         { detach = true }
       )
     end

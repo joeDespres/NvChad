@@ -1,12 +1,4 @@
-require "core.mappings"
-
 local M = {}
-
-vim.g.copilot_no_tab_map = true
-vim.g.copilot_assume_mapped = true
-vim.g.copilot_filetypes = {
-  ["*"] = false, -- Disable Copilot globally
-}
 
 M.general = {
   i = {
@@ -15,10 +7,7 @@ M.general = {
   n = {
     ["<leader>mr"] = { ":CellularAutomaton make_it_rain<CR>", "Make it Rain" },
     ["<leader>ml"] = { ":CellularAutomaton game_of_life<CR>", "Game of Life" },
-    ["<C-u>"] = { "<C-u>zz", "center on control u" },
-    ["<C-d>"] = { "<C-d>zz", "center on control d" },
-    ["n"] = { "nzzzv", "keep search terms in the middle" },
-    ["N"] = { "Nzzzv", "keep search terms in the middle" },
+    -- Note: <C-u>, <C-d>, n, N centering mappings are in core/mappings.lua
     ["<leader>cl"] = {
       function()
         vim.cmd "normal! c"
@@ -44,7 +33,10 @@ M.general = {
         if line ~= "" then
           local query = url_encode(line)
           local url = "https://www.google.com/search?q=" .. query
-          vim.fn.system { "open", url }
+          local open_cmd = vim.fn.has "mac" == 1 and "open"
+            or vim.fn.has "unix" == 1 and "xdg-open"
+            or "start"
+          vim.fn.system { open_cmd, url }
         end
       end,
       "Google Search",
@@ -52,35 +44,6 @@ M.general = {
   },
 }
 
-M.copilot = {
-  i = {
-    ["<C-a>"] = {
-      function()
-        require("copilot.suggestion").accept()
-      end,
-      desc = "Accept Copilot suggestion",
-    },
-    ["<C-f>"] = {
-      function()
-        print "copilot"
-        require("copilot.suggestion").accept_line()
-      end,
-      desc = "Accept Copilot word suggestion",
-    },
-    ["<C-j>"] = {
-      function()
-        require("copilot.suggestion").accept_word()
-      end,
-      desc = "Accept Copilot word suggestion",
-    },
-    ["<C-k>"] = {
-      function()
-        require("copilot.suggestion").next()
-      end,
-      desc = "Next Copilot suggestion",
-    },
-  },
-}
 
 M.dadbodui = {
   n = {
@@ -88,44 +51,7 @@ M.dadbodui = {
   },
 }
 
-M.gitlinker = {
-  n = {
-    ["<leader>hy"] = {
-      function()
-        require("gitlinker").get_buf_range_url(
-          "n",
-          { action_callback = require("gitlinker.actions").copy_to_clipboard }
-        )
-      end,
-    },
-    ["<leader>ht"] = {
-      function()
-        require("gitlinker").get_buf_range_url(
-          "n",
-          { action_callback = require("gitlinker.actions").open_in_browser }
-        )
-      end,
-    },
-  },
-  v = {
-    ["<leader>hy"] = {
-      function()
-        require("gitlinker").get_buf_range_url(
-          "v",
-          { action_callback = require("gitlinker.actions").copy_to_clipboard }
-        )
-      end,
-    },
-    ["<leader>ht"] = {
-      function()
-        require("gitlinker").get_buf_range_url(
-          "v",
-          { action_callback = require("gitlinker.actions").open_in_browser }
-        )
-      end,
-    },
-  },
-}
+-- gitlinker mappings are defined in the plugin spec (custom/plugins.lua)
 
 M.tabufline = {
   plugin = true,
@@ -327,7 +253,11 @@ M.gitsigns = {
     ["<leader>hc"] = {
       function()
         local commit_message = vim.fn.input "Enter Commit Message > "
-        local git_cmd = 'silent !git commit -m "' .. commit_message .. '"'
+        if commit_message == "" then
+          print "Commit cancelled"
+          return
+        end
+        local git_cmd = "silent !git commit -m " .. vim.fn.shellescape(commit_message)
         vim.api.nvim_command(git_cmd)
         print "Commit Successful"
       end,
@@ -335,7 +265,7 @@ M.gitsigns = {
     },
     ["<leader>hb"] = {
       function()
-        package.loaded.gitsigns.blame_line()
+        require("gitsigns").blame_line()
       end,
       "Blame line",
     },
@@ -345,6 +275,10 @@ M.gitsigns = {
 local say_job_id = nil
 
 local function toggle_say(content)
+  if vim.fn.has "mac" ~= 1 then
+    print "Speech only available on macOS"
+    return
+  end
   if say_job_id then
     vim.fn.jobstop(say_job_id)
     say_job_id = nil

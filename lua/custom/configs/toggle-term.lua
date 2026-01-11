@@ -13,7 +13,12 @@ local options = {
     end
   end,
   on_open = function()
-    vim.cmd "silent! write"
+    -- Only write if buffer is a normal file buffer that can be written
+    local buftype = vim.bo.buftype
+    local bufname = vim.fn.bufname()
+    if buftype == "" and bufname ~= "" and vim.bo.modifiable then
+      vim.cmd "silent! write"
+    end
   end,
   persist_size = true,
   direction = "float",

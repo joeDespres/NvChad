@@ -20,7 +20,7 @@ opt.expandtab = true
 opt.scrolloff = 8
 opt.shiftwidth = 2
 opt.smartindent = true
-opt.tabstop = 4
+opt.tabstop = 2
 opt.softtabstop = 2
 opt.colorcolumn = "80"
 
@@ -78,7 +78,7 @@ autocmd("FileType", {
 autocmd("BufWritePost", {
   pattern = vim.tbl_map(
     function(path)
-      return vim.fs.normalize(vim.loop.fs_realpath(path))
+      return vim.fs.normalize(vim.uv.fs_realpath(path))
     end,
     vim.fn.glob(
       vim.fn.stdpath "config" .. "/lua/custom/**/*.lua",
@@ -131,7 +131,7 @@ vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
   group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
   callback = function(args)
     local file = vim.api.nvim_buf_get_name(args.buf)
-    local buftype = vim.api.nvim_buf_get_option(args.buf, "buftype")
+    local buftype = vim.bo[args.buf].buftype
 
     if not vim.g.ui_entered and args.event == "UIEnter" then
       vim.g.ui_entered = true
@@ -147,7 +147,7 @@ vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
         if vim.g.editorconfig then
           require("editorconfig").config(args.buf)
         end
-      end, 0)
+      end)
     end
   end,
 })

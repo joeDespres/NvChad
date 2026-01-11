@@ -59,15 +59,14 @@ local default_plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    version = "2.20.7",
+    main = "ibl",
     event = "User FilePost",
     opts = function()
       return require("plugins.configs.others").blankline
     end,
     config = function(_, opts)
-      require("core.utils").load_mappings "blankline"
       dofile(vim.g.base46_cache .. "blankline")
-      require("indent_blankline").setup(opts)
+      require("ibl").setup(opts)
     end,
   },
 
@@ -137,6 +136,8 @@ local default_plugins = {
       {
         -- snippet plugin
         "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = false,
         dependencies = "rafamadriz/friendly-snippets",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
         config = function(_, opts)

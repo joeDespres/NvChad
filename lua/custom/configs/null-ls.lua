@@ -10,7 +10,7 @@ local function setup_format_on_save(bufnr)
   if not format_on_save_enabled then
     return
   end
-  local clients = vim.lsp.get_active_clients { bufnr = bufnr }
+  local clients = vim.lsp.get_clients { bufnr = bufnr }
   for _, client in pairs(clients) do
     if client.supports_method "textDocument/formatting" then
       vim.api.nvim_create_autocmd("BufWritePre", {
