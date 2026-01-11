@@ -3,9 +3,9 @@ M.plugins = "custom.plugins"
 M.mappings = require "custom.mappings"
 M.ui = {
   telescope = { style = "bordered" }, -- borderless / bordered
-  statusline = {
-    theme = "vscode_colored",
-  },
+  -- Disabled NvChad statusline to use lualine instead
+  statusline = { enabled = false },
+  tabufline = { enabled = false }, -- Using bufferline.nvim instead
   theme = "catppuccin",
 
   hl_override = {

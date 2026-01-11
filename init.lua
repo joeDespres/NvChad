@@ -21,6 +21,16 @@ if not vim.uv.fs_stat(lazypath) then
   require("core.bootstrap").lazy(lazypath)
 end
 
-dofile(vim.g.base46_cache .. "defaults")
+-- Load base46 cache (regenerate if missing)
+local base46_cache = vim.g.base46_cache .. "defaults"
+if vim.uv.fs_stat(base46_cache) then
+  dofile(base46_cache)
+else
+  vim.schedule(function()
+    require("base46").compile()
+    dofile(base46_cache)
+    vim.notify("Regenerated base46 cache", vim.log.levels.INFO)
+  end)
+end
 vim.opt.rtp:prepend(lazypath)
 require "plugins"

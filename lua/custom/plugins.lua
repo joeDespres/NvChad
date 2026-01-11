@@ -196,5 +196,155 @@ local plugins = {
       },
     },
   },
+  -- Catppuccin colorscheme
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = {
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
+      transparent_background = false,
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = true,
+        mason = true,
+        noice = true,
+        telescope = {
+          enabled = true,
+        },
+      },
+    },
+  },
+  -- Noice - modern UI for cmdline, messages, popupmenu
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
+      },
+    },
+  },
+  -- Lualine statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
+    opts = {
+      options = {
+        theme = "auto",
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename" },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+    },
+  },
+  -- Bufferline - fancy tabbar
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    event = "BufReadPost",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      options = {
+        mode = "buffers",
+        themable = true,
+        numbers = function(opts)
+          return string.format("%s", opts.raise(opts.ordinal))
+        end,
+        indicator = {
+          icon = "▎",
+          style = "icon",
+        },
+        buffer_close_icon = "󰅖",
+        modified_icon = "●",
+        close_icon = "",
+        left_trunc_marker = "",
+        right_trunc_marker = "",
+        max_name_length = 18,
+        max_prefix_length = 15,
+        truncate_names = true,
+        tab_size = 20,
+        diagnostics = "nvim_lsp",
+        diagnostics_update_in_insert = false,
+        diagnostics_indicator = function(count, level)
+          local icon = level:match("error") and " " or " "
+          return " " .. icon .. count
+        end,
+        offsets = {
+          {
+            filetype = "NvimTree",
+            text = " File Explorer",
+            text_align = "center",
+            separator = true,
+            highlight = "Directory",
+          },
+        },
+        color_icons = true,
+        show_buffer_icons = true,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        show_tab_indicators = true,
+        show_duplicate_prefix = true,
+        separator_style = "slant", -- "slant" | "slope" | "thick" | "thin" | { "▏", "▕" }
+        enforce_regular_tabs = false,
+        always_show_bufferline = true,
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { "close" },
+        },
+      },
+    },
+    config = function(_, opts)
+      -- Safely load catppuccin highlights
+      local ok, catppuccin_hl = pcall(function()
+        return require("catppuccin.groups.integrations.bufferline").get()
+      end)
+      if ok then
+        opts.highlights = catppuccin_hl
+      end
+      require("bufferline").setup(opts)
+      -- Keymaps for buffer navigation
+      vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+      vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+      vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", { desc = "Pin buffer" })
+      vim.keymap.set("n", "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", { desc = "Close unpinned" })
+      vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+      vim.keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close buffers to the right" })
+      vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close buffers to the left" })
+      -- Jump to buffer by number
+      for i = 1, 9 do
+        vim.keymap.set("n", "<leader>" .. i, function()
+          require("bufferline").go_to(i, true)
+        end, { desc = "Go to buffer " .. i })
+      end
+    end,
+  },
 }
 return plugins

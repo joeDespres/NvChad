@@ -230,3 +230,4 @@ api.nvim_create_autocmd("BufWritePost", {
     vim.cmd "silent noautocmd write"
   end,
 })
+
