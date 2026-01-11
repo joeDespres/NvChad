@@ -1,6 +1,29 @@
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require "null-ls"
 local format_on_save_enabled = true
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+local function setup_format_on_save(bufnr)
+  vim.api.nvim_clear_autocmds {
+    group = augroup,
+    buffer = bufnr,
+  }
+  if not format_on_save_enabled then
+    return
+  end
+  local clients = vim.lsp.get_active_clients { bufnr = bufnr }
+  for _, client in pairs(clients) do
+    if client.supports_method "textDocument/formatting" then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format { bufnr = bufnr }
+        end,
+      })
+      break
+    end
+  end
+end
 
 local opts = {
   sources = {
@@ -21,25 +44,10 @@ local opts = {
   },
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
-      vim.api.nvim_clear_autocmds {
-        group = augroup,
-        buffer = bufnr,
-      }
-      if format_on_save_enabled then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = augroup,
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format { bufnr = bufnr }
-          end,
-        })
-      end
+      setup_format_on_save(bufnr)
     end
   end,
 }
-
-local format_on_save_enabled = true
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 vim.api.nvim_create_user_command("ToggleFormatOnSave", function()
   format_on_save_enabled = not format_on_save_enabled
@@ -49,26 +57,6 @@ vim.api.nvim_create_user_command("ToggleFormatOnSave", function()
   )
 
   local bufnr = vim.api.nvim_get_current_buf()
-
-  vim.api.nvim_clear_autocmds {
-    group = augroup,
-    buffer = bufnr,
-  }
-
-  if format_on_save_enabled then
-    local clients = vim.lsp.get_active_clients { bufnr = bufnr }
-    for _, client in pairs(clients) do
-      if client.supports_method "textDocument/formatting" then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = augroup,
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format { bufnr = bufnr }
-          end,
-        })
-        break
-      end
-    end
-  end
+  setup_format_on_save(bufnr)
 end, {})
 return opts

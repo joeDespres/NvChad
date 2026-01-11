@@ -80,10 +80,6 @@ local plugins = {
     lazy = false,
   },
   {
-    "R-nvim/R.nvim",
-    lazy = false,
-  },
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
@@ -219,14 +215,6 @@ local plugins = {
   },
   {
     "folke/zen-mode.nvim",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-  },
-  {
-    "folke/twilight.nvim",
     opts = {
       -- your configuration comes here
       -- or leave it empty to use the default settings
