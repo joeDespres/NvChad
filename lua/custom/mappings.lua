@@ -19,7 +19,7 @@ M.general = {
     ["<leader>d"] = { "yyp", "Duplicate line" },
 
     -- Select all
-    ["<C-a>"] = { "ggVG", "Select all" },
+    -- ["<C-a>"] = { "ggVG", "Select all" },
 
     -- Quick save
     ["<leader>w"] = { "<cmd>w<CR>", "Save" },
@@ -32,6 +32,24 @@ M.general = {
     ["<C-Down>"] = { "<cmd>resize -2<CR>", "Resize down" },
     ["<C-Left>"] = { "<cmd>vertical resize -2<CR>", "Resize left" },
     ["<C-Right>"] = { "<cmd>vertical resize +2<CR>", "Resize right" },
+
+    -- Buffer/tab navigation
+    ["<C-l>"] = {
+      function()
+        if not pcall(vim.cmd, "BufferLineCycleNext") then
+          vim.cmd "bnext"
+        end
+      end,
+      "Next buffer",
+    },
+    ["<C-h>"] = {
+      function()
+        if not pcall(vim.cmd, "BufferLineCyclePrev") then
+          vim.cmd "bprevious"
+        end
+      end,
+      "Prev buffer",
+    },
 
     -- Zen mode
     ["<leader>z"] = { "<cmd>ZenMode<CR>", "Zen mode" },
@@ -95,8 +113,8 @@ M.dadbodui = {
 -- gitlinker mappings are defined in the plugin spec (custom/plugins.lua)
 
 M.tabufline = {
-  plugin = true,
 
+  plugin = true,
   n = {
     -- cycle through buffers
     ["<C-l>"] = {

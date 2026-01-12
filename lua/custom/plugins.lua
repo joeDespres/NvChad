@@ -241,6 +241,16 @@ local plugins = {
         inc_rename = false,
         lsp_doc_border = false,
       },
+      views = {
+        cmdline_popup = {
+          relative = "cursor",
+          anchor = "SW",
+          position = { row = 1, col = 2 },
+        },
+        cmdline_popupmenu = {
+          position = "auto",
+        },
+      },
     },
   },
   -- Lualine statusline
