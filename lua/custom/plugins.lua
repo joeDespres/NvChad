@@ -1,3 +1,6 @@
+-- :W saves without formatting (bypasses autocommands)
+vim.api.nvim_create_user_command("W", "noautocmd write", {})
+
 local plugins = {
   {
     "williamboman/mason.nvim",
@@ -245,7 +248,7 @@ local plugins = {
         cmdline_popup = {
           relative = "cursor",
           anchor = "SW",
-          position = { row = 1, col = 2 },
+          position = { row = 3, col = 10 },
         },
         cmdline_popupmenu = {
           position = "auto",

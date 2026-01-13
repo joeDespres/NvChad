@@ -231,3 +231,6 @@ api.nvim_create_autocmd("BufWritePost", {
   end,
 })
 
+-- :W command to save without formatting (skips all autocmds)
+vim.api.nvim_create_user_command('W', 'noautocmd write', { desc = 'Save without formatting' })
+
