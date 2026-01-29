@@ -223,6 +223,17 @@ local plugins = {
   },
   -- Noice - modern UI for cmdline, messages, popupmenu
   {
+    "rcarriga/nvim-notify",
+    opts = {
+      top_down = false, -- notifications appear from bottom
+      stages = "fade", -- subtle fade animation
+      timeout = 2000, -- disappear faster (2 seconds)
+      background_colour = "#000000",
+      render = "minimal", -- less intrusive style
+      max_width = 50,
+    },
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
