@@ -14,13 +14,33 @@ local plugins = {
     opts = function()
       local opts = require "plugins.configs.treesitter"
       opts.ensure_installed = {
+        "bash",
+        "c",
+        "cpp",
+        "css",
+        "diff",
+        "dockerfile",
+        "go",
+        "html",
         "javascript",
+        "json",
         "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "regex",
         "rust",
         "sql",
+        "toml",
         "tsx",
         "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
       }
+      -- auto-install a parser the first time a fenced code block uses a
+      -- language not listed above, so markdown code blocks always highlight
+      opts.auto_install = true
       return opts
     end,
   },
@@ -149,12 +169,153 @@ local plugins = {
       }
     end,
   },
+  -- ── Python / PyTorch / notebooks ──────────────────────────────────────
+  {
+    -- Run code cells against a live Jupyter kernel, output shown inline.
+    "benlubas/molten-nvim",
+    version = "^1",
+    ft = { "python" },
+    build = ":UpdateRemotePlugins",
+    init = function()
+      vim.g.molten_image_provider = "none" -- alacritty: no inline images
+      vim.g.molten_auto_image_popup = true -- figures auto-open in Preview
+      vim.g.molten_auto_open_output = false
+      vim.g.molten_virt_text_output = true -- text output inline below cell
+      vim.g.molten_wrap_output = true
+      vim.g.molten_output_win_max_height = 20
+    end,
+  },
+  {
+    -- Open/edit/save .ipynb transparently as percent-format python
+    "GCBallesteros/jupytext.nvim",
+    lazy = false, -- must catch BufReadCmd for *.ipynb
+    opts = {
+      style = "percent",
+    },
+  },
+  {
+    -- Pick/auto-detect project venvs; restarts pyright/ruff on switch
+    "linux-cultist/venv-selector.nvim",
+    dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim" },
+    ft = "python",
+    keys = {
+      { "<leader>rv", "<cmd>VenvSelect<cr>", desc = "Select python venv" },
+    },
+    opts = {},
+  },
+  {
+    -- Debug scripts and pytest with breakpoints via debugpy
+    "mfussenegger/nvim-dap-python",
+    ft = "python",
+    dependencies = { "mfussenegger/nvim-dap" },
+    config = function()
+      local debugpy = vim.fn.stdpath "data"
+        .. "/mason/packages/debugpy/venv/bin/python"
+      require("dap-python").setup(debugpy)
+    end,
+  },
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_auto_close = 1
+      vim.g.mkdp_refresh_slow = 0
+      vim.g.mkdp_page_title = "${name}"
+      vim.g.mkdp_theme = "dark"
+    end,
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      preset = "obsidian",
+      completions = { lsp = { enabled = true } },
+      heading = {
+        width = "block",
+        left_pad = 1,
+        right_pad = 1,
+      },
+      code = {
+        border = "thin",
+        width = "block",
+        left_pad = 1,
+        right_pad = 1,
+      },
+      bullet = {
+        icons = { "●", "○", "◆", "◇" },
+      },
+      checkbox = {
+        unchecked = { icon = "󰄱 " },
+        checked = { icon = "󰱒 " },
+        custom = {
+          todo = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownTodo" },
+          important = { raw = "[!]", rendered = " ", highlight = "DiagnosticWarn" },
+        },
+      },
+      sign = { enabled = false },
+    },
+  },
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = { "markdown" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = {
+      on_attach = function(bufnr)
+        local function map(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, {
+            buffer = bufnr,
+            desc = desc,
+            silent = true,
+          })
+        end
+
+        map({ "n", "i" }, "<M-CR>", "<cmd>MDListItemBelow<cr>", "Markdown list item below")
+        map("n", "<leader>mt", "<cmd>MDTaskToggle<cr>", "Markdown toggle task")
+        map("x", "<leader>mt", ":MDTaskToggle<cr>", "Markdown toggle tasks")
+        map("n", "<leader>mo", "<cmd>MDToc<cr>", "Markdown outline")
+        map("n", "<leader>mn", "<cmd>MDInsertToc<cr>", "Markdown insert TOC")
+        map("n", "<leader>mr", "<cmd>RenderMarkdown buf_toggle<cr>", "Markdown render toggle")
+        map("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", "Markdown browser preview")
+        map("n", "<leader>mi", "<cmd>PasteImage<cr>", "Markdown paste image")
+        map("n", "<leader>mT", "<cmd>TableModeToggle<cr>", "Markdown table mode")
+        map("n", "<leader>mz", "<cmd>ZenMode<cr>", "Markdown zen mode")
+      end,
+    },
+  },
+  {
+    "HakonHarnes/img-clip.nvim",
+    ft = { "markdown" },
+    cmd = { "PasteImage", "ImgClipDebug", "ImgClipConfig" },
+    opts = {
+      default = {
+        dir_path = "assets",
+        relative_to_current_file = true,
+        prompt_for_file_name = true,
+        show_dir_path_in_prompt = true,
+      },
+      filetypes = {
+        markdown = {
+          template = "![$CURSOR]($FILE_PATH)",
+          url_encode_path = true,
+        },
+      },
+    },
+  },
+  {
+    "dhruvasagar/vim-table-mode",
+    ft = { "markdown" },
+    cmd = { "TableModeToggle", "TableModeEnable", "TableModeDisable", "Tableize" },
+    init = function()
+      vim.g.table_mode_disable_mappings = 1
+      vim.g.table_mode_corner = "|"
+      vim.g.table_mode_corner_corner = "|"
+      vim.g.table_mode_header_fillchar = "-"
     end,
   },
   {

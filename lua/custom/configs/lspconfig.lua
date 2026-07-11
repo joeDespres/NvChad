@@ -31,6 +31,21 @@ vim.lsp.config("pyright", {
   on_init = on_init,
   capabilities = capabilities,
   filetypes = { "python" },
+  settings = {
+    pyright = {
+      disableOrganizeImports = true, -- ruff handles imports
+    },
+  },
+})
+
+-- ruff: lint diagnostics, code actions, import organization, formatting
+vim.lsp.config("ruff", {
+  on_attach = function(client, bufnr)
+    client.server_capabilities.hoverProvider = false -- pyright owns hover
+    on_attach(client, bufnr)
+  end,
+  on_init = on_init,
+  capabilities = capabilities,
 })
 
 -- Enable all servers
@@ -39,3 +54,4 @@ for _, lsp in ipairs(servers) do
   vim.lsp.enable(lsp)
 end
 vim.lsp.enable("pyright")
+vim.lsp.enable("ruff")

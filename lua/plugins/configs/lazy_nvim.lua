@@ -34,7 +34,7 @@ return {
         "zip",
         "zipPlugin",
         "tutor",
-        "rplugin",
+        -- "rplugin" must stay enabled: molten-nvim is a remote plugin
         "syntax",
         "synmenu",
         "optwin",

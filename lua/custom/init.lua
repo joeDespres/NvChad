@@ -13,6 +13,16 @@ opt.swapfile = false
 opt.shell = "/bin/zsh"
 vim.o.autoread = true
 
+-- Dedicated python host for remote plugins (Molten). Kept separate from
+-- project venvs so it never collides with them.
+vim.g.python3_host_prog = vim.fn.expand "~/.venvs/neovim/bin/python"
+-- Appended (not prepended) so project pythons keep PATH priority; only the
+-- `jupytext` CLI needs to resolve from here.
+vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.expand "~/.venvs/neovim/bin"
+
+require "custom.configs.notebook"
+require "custom.configs.format"
+
 api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = augroup("CheckTime"),
   command = "checktime",
@@ -26,7 +36,24 @@ api.nvim_create_autocmd("FileType", {
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
     vim.opt_local.linebreak = true
-    vim.opt_local.colorcolumn = "100"
+    vim.opt_local.breakindent = true
+    vim.opt_local.showbreak = "↳  "
+    vim.opt_local.colorcolumn = ""
+    vim.opt_local.textwidth = 0
+  end,
+})
+
+api.nvim_create_autocmd("FileType", {
+  group = augroup("MarkdownWriting"),
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.conceallevel = 2
+    vim.opt_local.concealcursor = "nc"
+    vim.opt_local.cursorline = true
+    vim.opt_local.foldmethod = "expr"
+    vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.opt_local.foldlevel = 99
+    vim.opt_local.formatoptions:append { "r", "o" }
   end,
 })
 
@@ -233,4 +260,3 @@ api.nvim_create_autocmd("BufWritePost", {
 
 -- :W command to save without formatting (skips all autocmds)
 vim.api.nvim_create_user_command('W', 'noautocmd write', { desc = 'Save without formatting' })
-
