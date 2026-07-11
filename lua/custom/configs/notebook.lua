@@ -28,12 +28,35 @@ local function prev_cell()
   vim.fn.search("^# %%", "bW")
 end
 
+-- Resolve the kernel without prompting: use the buffer's attached kernel;
+-- if none, attach this buffer to the single running kernel (molten's own
+-- prompt path runs on a shared kernel WITHOUT attaching, so it re-prompts
+-- on every evaluation). Returns nil when nothing is running yet.
+local function ensure_kernel()
+  local ok, attached = pcall(vim.fn.MoltenRunningKernels, true)
+  if ok and #attached >= 1 then
+    return attached[1]
+  end
+  local ok_all, running = pcall(vim.fn.MoltenRunningKernels, false)
+  if ok_all and #running == 1 then
+    vim.cmd("MoltenInit shared " .. running[1])
+    return running[1]
+  end
+end
+
 local function run_cell()
   local start, stop = cell_range()
-  local ok = pcall(vim.fn.MoltenEvaluateRange, start, stop)
+  local kernel = ensure_kernel()
+  local ok
+  if kernel then
+    ok = pcall(vim.fn.MoltenEvaluateRange, kernel, start, stop)
+  else
+    -- nothing running: let molten prompt for a kernel this one time
+    ok = pcall(vim.fn.MoltenEvaluateRange, start, stop)
+  end
   if not ok then
     vim.notify(
-      "Molten kernel not running — start one with :MoltenInit (<leader>ri)",
+      "Molten kernel not running — start one with :MoltenInit (<leader>ji)",
       vim.log.levels.WARN
     )
   end
@@ -126,15 +149,9 @@ api.nvim_create_autocmd("FileType", {
     map("n", "<leader>jl", "<cmd>MoltenEvaluateLine<cr>", "Jupyter execute line")
     map("v", "<leader>je", ":<C-u>MoltenEvaluateVisual<cr>", "Jupyter execute selection")
     map("n", "<leader>jc", "<cmd>MoltenReevaluateCell<cr>", "Jupyter re-run molten cell")
-    map("n", "<leader>jo", function()
-      -- MoltenEnterOutput only opens the float on the first call when it
-      -- isn't visible yet; call again so one press always lands inside
-      local win = api.nvim_get_current_win()
-      vim.cmd "noautocmd MoltenEnterOutput"
-      if api.nvim_get_current_win() == win then
-        vim.cmd "noautocmd MoltenEnterOutput"
-      end
-    end, "Jupyter enter output")
+    -- first press opens the output float (cursor stays in code);
+    -- second press jumps into it; :q to come back
+    map("n", "<leader>jo", "<cmd>noautocmd MoltenEnterOutput<cr>", "Jupyter show/enter output")
     map("n", "<leader>jh", "<cmd>MoltenHideOutput<cr>", "Jupyter hide output")
     map("n", "<leader>jd", "<cmd>MoltenDelete<cr>", "Jupyter delete cell output")
     map("n", "<leader>jp", "<cmd>MoltenImagePopup<cr>", "Jupyter open figure in Preview")
