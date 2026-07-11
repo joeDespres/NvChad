@@ -61,12 +61,37 @@ local function apply_type_hints(line1, line2)
       vim.notify("No inlay hints available", vim.log.levels.WARN)
       return
     end
+    -- Each hint's textEdits are generated as if applied alone, so several
+    -- hints needing the same import each carry their own copy of the import
+    -- edit. Dedupe imports by statement text and skip ones already present.
+    local existing = {}
+    for _, l in ipairs(api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+      existing[vim.trim(l)] = true
+    end
+    local seen = {}
     local edits = {}
     for _, hint in ipairs(hints) do
       -- kind 1 = Type (annotations), kind 2 = Parameter (keyword-arg names);
       -- both get materialized
       for _, edit in ipairs(hint.textEdits or {}) do
-        table.insert(edits, edit)
+        local import_line = edit.newText:match "^%s*(from%s.-%simport%s[^\n]+)"
+          or edit.newText:match "^%s*(import%s[^\n]+)"
+        local key
+        if import_line then
+          key = "import:" .. vim.trim(import_line)
+        else
+          key = table.concat({
+            edit.range.start.line,
+            edit.range.start.character,
+            edit.range["end"].line,
+            edit.range["end"].character,
+            edit.newText,
+          }, ":")
+        end
+        if not seen[key] and not (import_line and existing[vim.trim(import_line)]) then
+          seen[key] = true
+          table.insert(edits, edit)
+        end
       end
     end
     if #edits == 0 then
