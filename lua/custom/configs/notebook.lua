@@ -126,7 +126,15 @@ api.nvim_create_autocmd("FileType", {
     map("n", "<leader>jl", "<cmd>MoltenEvaluateLine<cr>", "Jupyter execute line")
     map("v", "<leader>je", ":<C-u>MoltenEvaluateVisual<cr>", "Jupyter execute selection")
     map("n", "<leader>jc", "<cmd>MoltenReevaluateCell<cr>", "Jupyter re-run molten cell")
-    map("n", "<leader>jo", "<cmd>noautocmd MoltenEnterOutput<cr>", "Jupyter open output")
+    map("n", "<leader>jo", function()
+      -- MoltenEnterOutput only opens the float on the first call when it
+      -- isn't visible yet; call again so one press always lands inside
+      local win = api.nvim_get_current_win()
+      vim.cmd "noautocmd MoltenEnterOutput"
+      if api.nvim_get_current_win() == win then
+        vim.cmd "noautocmd MoltenEnterOutput"
+      end
+    end, "Jupyter enter output")
     map("n", "<leader>jh", "<cmd>MoltenHideOutput<cr>", "Jupyter hide output")
     map("n", "<leader>jd", "<cmd>MoltenDelete<cr>", "Jupyter delete cell output")
     map("n", "<leader>jp", "<cmd>MoltenImagePopup<cr>", "Jupyter open figure in Preview")
