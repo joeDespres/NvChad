@@ -199,7 +199,7 @@ local plugins = {
     dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim" },
     ft = "python",
     keys = {
-      { "<leader>rv", "<cmd>VenvSelect<cr>", desc = "Select python venv" },
+      { "<leader>jv", "<cmd>VenvSelect<cr>", desc = "Select python venv" },
     },
     opts = {},
   },
