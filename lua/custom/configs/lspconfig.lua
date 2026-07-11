@@ -26,17 +26,47 @@ for _, lsp in ipairs(servers) do
   })
 end
 
-vim.lsp.config("pyright", {
+-- inline diagnostics (nvim 0.11 disables virtual text by default)
+vim.diagnostic.config {
+  virtual_text = { prefix = "●", severity = { min = vim.diagnostic.severity.HINT } },
+  severity_sort = true,
+}
+
+-- basedpyright: pyright fork with inlay type hints
+vim.lsp.config("basedpyright", {
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
   filetypes = { "python" },
   settings = {
-    pyright = {
+    basedpyright = {
       disableOrganizeImports = true, -- ruff handles imports
+      analysis = {
+        typeCheckingMode = "standard",
+        inlayHints = {
+          variableTypes = true,
+          functionReturnTypes = true,
+          callArgumentNames = true,
+        },
+      },
     },
   },
 })
+
+-- inlay type hints on for python buffers
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("PyInlayHints", { clear = true }),
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client:supports_method "textDocument/inlayHint" then
+      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+    end
+  end,
+})
+
+vim.api.nvim_create_user_command("ToggleInlayHints", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
+end, { desc = "Toggle LSP inlay type hints" })
 
 -- ruff: lint diagnostics, code actions, import organization, formatting
 vim.lsp.config("ruff", {
@@ -53,5 +83,5 @@ vim.lsp.enable("clangd")
 for _, lsp in ipairs(servers) do
   vim.lsp.enable(lsp)
 end
-vim.lsp.enable("pyright")
+vim.lsp.enable("basedpyright")
 vim.lsp.enable("ruff")

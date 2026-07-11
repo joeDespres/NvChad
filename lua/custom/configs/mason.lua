@@ -1,5 +1,6 @@
 local options = {
   ensure_installed = {
+    "basedpyright",
     "bash-language-server",
     "clang-format",
     "clangd",
@@ -11,7 +12,6 @@ local options = {
     "markdownlint-cli2",
     "mypy",
     "prettierd",
-    "pyright",
     "r-languageserver",
     "ruff",
     "rust-analyzer",
