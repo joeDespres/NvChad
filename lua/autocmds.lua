@@ -62,6 +62,24 @@ api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- ── Markdown math delimiters ──────────────────────────────────────────
+-- Convert LaTeX-style \(...\) and \[...\] to markdown-standard $...$ and
+-- $$...$$ so treesitter recognizes them and render-markdown can draw them.
+api.nvim_create_user_command("MathDollar", function()
+  local text = table.concat(api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+  local display, inline
+  text, display = text:gsub("\\%[(.-)\\%]", "$$%1$$")
+  text, inline = text:gsub("\\%(%s*(.-)%s*\\%)", "$%1$")
+  if display + inline == 0 then
+    vim.notify("No \\(..\\) or \\[..\\] math found", vim.log.levels.INFO)
+    return
+  end
+  local cursor = api.nvim_win_get_cursor(0)
+  api.nvim_buf_set_lines(0, 0, -1, false, vim.split(text, "\n"))
+  pcall(api.nvim_win_set_cursor, 0, cursor)
+  vim.notify(("Converted %d display + %d inline math delimiters"):format(display, inline))
+end, { desc = "Convert \\(..\\)/\\[..\\] math to $..$/$$..$$" })
+
 -- ── Markdown checkboxes ───────────────────────────────────────────────
 -- Toggle: cycles between no checkbox -> [ ] -> [x] -> [ ]
 local function toggle_markdown_checkbox()
