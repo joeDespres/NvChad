@@ -83,6 +83,7 @@ return {
         "html",
         "javascript",
         "json",
+        "latex",
         "lua",
         "markdown",
         "markdown_inline",
@@ -227,6 +228,89 @@ return {
   },
 
   -- ── Editing / UI ──────────────────────────────────────────────────────
+  {
+    -- Pin working files per project; jump instantly regardless of buffer order
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = (function()
+      local function harpoon()
+        return require "harpoon"
+      end
+      local keys = {
+        {
+          "<M-a>",
+          function()
+            harpoon():list():add()
+            vim.notify("Harpooned " .. vim.fn.expand "%:t")
+          end,
+          desc = "Harpoon add file",
+        },
+        {
+          "<M-e>",
+          function()
+            harpoon().ui:toggle_quick_menu(harpoon():list())
+          end,
+          desc = "Harpoon quick menu",
+        },
+        {
+          "<M-n>",
+          function()
+            harpoon():list():next()
+          end,
+          desc = "Harpoon next",
+        },
+        {
+          "<M-p>",
+          function()
+            harpoon():list():prev()
+          end,
+          desc = "Harpoon prev",
+        },
+      }
+      for i = 1, 4 do
+        table.insert(keys, {
+          "<M-" .. i .. ">",
+          function()
+            harpoon():list():select(i)
+          end,
+          desc = "Harpoon file " .. i,
+        })
+      end
+      return keys
+    end)(),
+    config = function()
+      require("harpoon"):setup()
+    end,
+  },
+  {
+    -- Project-wide find & replace with live ripgrep preview
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    keys = {
+      {
+        "<leader>rr",
+        "<cmd>GrugFar<cr>",
+        desc = "Find & replace in project",
+      },
+      {
+        "<leader>rr",
+        function()
+          require("grug-far").with_visual_selection()
+        end,
+        mode = "x",
+        desc = "Find & replace selection",
+      },
+      {
+        "<leader>rf",
+        function()
+          require("grug-far").open { prefills = { paths = vim.fn.expand "%" } }
+        end,
+        desc = "Find & replace in current file",
+      },
+    },
+    opts = {},
+  },
   {
     "eandrju/cellular-automaton.nvim",
     cmd = "CellularAutomaton",
@@ -449,6 +533,10 @@ return {
       bullet = {
         icons = { "●", "○", "◆", "◇" },
       },
+      latex = {
+        enabled = true,
+        position = "above",
+      },
       checkbox = {
         unchecked = { icon = "󰄱 " },
         checked = { icon = "󰱒 " },
@@ -484,6 +572,7 @@ return {
         bmap("n", "<leader>mi", "<cmd>PasteImage<cr>", "Markdown paste image")
         bmap("n", "<leader>mT", "<cmd>TableModeToggle<cr>", "Markdown table mode")
         bmap("n", "<leader>mz", "<cmd>ZenMode<cr>", "Markdown zen mode")
+        bmap("n", "<leader>m$", "<cmd>MathDollar<cr>", "Markdown \\(..\\) math to $..$")
       end,
     },
   },
@@ -532,6 +621,9 @@ return {
           path = [[/Users/joe/Library/Mobile Documents/iCloud~md~obsidian/Documents/DocsQuickSpec]],
         },
       },
+      -- render-markdown.nvim owns in-buffer rendering; obsidian's overlapping
+      -- checkbox/reference decorations fight it (checkhealth render-markdown)
+      ui = { enable = false },
     },
   },
 
