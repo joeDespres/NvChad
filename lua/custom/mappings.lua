@@ -97,6 +97,7 @@ M.general = {
       function()
         local filename = vim.fn.expand "%:t"
         local filepath = vim.fn.expand "%:p"
+        local filedir = vim.fn.expand "%:p:h"
         local filetype = vim.bo.filetype
         local pdf_name = vim.fn.expand "%:t:r" .. ".pdf"
 
@@ -105,9 +106,12 @@ M.general = {
           vim.cmd "write"
           -- Compile markdown to PDF using pandoc
           local cmd = string.format(
-            'pandoc "%s" -t pdf -o "%s" --pdf-engine=xelatex --standalone',
+            'pandoc "%s" -f markdown+tex_math_single_backslash -t pdf -o "%s" '
+              .. '--pdf-engine=xelatex --standalone --resource-path="%s" '
+              .. '-V geometry:margin=0.8in -V colorlinks=true -V monofont="Menlo"',
             filepath,
-            vim.fn.expand "%:p:h" .. "/" .. pdf_name
+            filedir .. "/" .. pdf_name,
+            filedir
           )
           local result = vim.fn.system(cmd)
           if vim.v.shell_error == 0 then
