@@ -1,24 +1,30 @@
--- This file needs to have same structure as nvconfig.lua 
+-- This file needs to have same structure as nvconfig.lua
 -- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
--- Please read that file to know all available options :( 
 
 ---@type ChadrcConfig
 local M = {}
 
 M.base46 = {
-	theme = "onedark",
+  theme = "catppuccin",
 
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+  hl_override = {
+    Comment = { italic = true },
+    Visual = {
+      bg = "#FFD8A6",
+      fg = "#191828",
+      bold = true,
+      italic = false,
+    },
+    DiffChange = { fg = "orange" },
+    DiffAdded = { fg = "#ABE9B3" },
+  },
 }
 
--- M.nvdash = { load_on_startup = true }
--- M.ui = {
---       tabufline = {
---          lazyload = false
---      }
--- }
+M.ui = {
+  telescope = { style = "bordered" },
+  -- lualine replaces the NvChad statusline; bufferline.nvim replaces tabufline
+  statusline = { enabled = false },
+  tabufline = { enabled = false },
+}
 
 return M
