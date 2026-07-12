@@ -1,5 +1,43 @@
 local M = {}
 
+local function current_file_context(line_start, line_end)
+  line_start = tonumber(line_start) or vim.api.nvim_win_get_cursor(0)[1]
+  line_end = tonumber(line_end) or line_start
+
+  if line_start < 1 then
+    line_start = vim.api.nvim_win_get_cursor(0)[1]
+  end
+
+  if line_end < 1 then
+    line_end = line_start
+  end
+
+  local filename = vim.fn.expand "%:."
+  if filename == "" then
+    filename = "[No Name]"
+  end
+
+  local context
+  if line_end and line_end ~= line_start then
+    local first = math.min(line_start, line_end)
+    local last = math.max(line_start, line_end)
+    context = string.format("%s:%d-%d", filename, first, last)
+  else
+    context = string.format("%s:%d", filename, line_start)
+  end
+
+  vim.fn.setreg('"', context)
+  vim.cmd("silent! call setreg('+', " .. vim.fn.string(context) .. ")")
+  print("Copied " .. context)
+end
+
+local function current_visual_file_context()
+  local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+  local visual_line = vim.fn.line "v"
+
+  current_file_context(visual_line, cursor_line)
+end
+
 M.general = {
   i = {
     ["<M-BS>"] = { "<C-w>", "Delete word" },
@@ -66,6 +104,12 @@ M.general = {
     -- Quick split
     ["<leader>sv"] = { "<cmd>vsplit<CR>", "Vertical split" },
     ["<leader>sh"] = { "<cmd>split<CR>", "Horizontal split" },
+    ["<leader>hu"] = {
+      function()
+        current_file_context(vim.api.nvim_win_get_cursor(0)[1])
+      end,
+      "Copy file context",
+    },
     -- Note: <C-u>, <C-d>, n, N centering mappings are in core/mappings.lua
     ["<leader>cl"] = {
       function()
@@ -404,6 +448,12 @@ M.visual = {
 
     -- Paste without yanking replaced text
     ["p"] = { '"_dP', "Paste without yank" },
+    ["<leader>hu"] = {
+      function()
+        current_visual_file_context()
+      end,
+      "Copy file context",
+    },
   },
 }
 

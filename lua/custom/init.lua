@@ -11,7 +11,12 @@ opt.relativenumber = true
 opt.wrap = false
 opt.swapfile = false
 opt.shell = "/bin/zsh"
-vim.o.autoread = true
+-- Automatically reload files changed by external programs.
+vim.opt.autoread = true
+local external_changes = vim.api.nvim_create_augroup(
+  "ExternalChangesWin",
+  { clear = true }
+)
 
 -- Dedicated python host for remote plugins (Molten). Kept separate from
 -- project venvs so it never collides with them.
@@ -23,9 +28,24 @@ vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.expand "~/.venvs/neovim/bin"
 require "custom.configs.notebook"
 require "custom.configs.format"
 
-api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-  group = augroup("CheckTime"),
-  command = "checktime",
+-- Even when the buffer has unsaved edits, discard them and use the disk version.
+vim.api.nvim_create_autocmd("FileChangedShell", {
+  group = external_changes,
+  pattern = "*",
+  callback = function()
+    if vim.v.fcs_reason ~= "deleted" then
+      vim.v.fcs_choice = "reload"
+    end
+  end,
+  desc = "Always accept externally changed files",
+})
+
+-- Fallback detection when returning to Neovim or changing buffers.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  group = external_changes,
+  pattern = "*",
+  command = "silent! checktime",
+  desc = "Check whether files changed on disk",
 })
 
 -- This autocmd sets the wrap and spell options to true for filetypes

@@ -43,30 +43,28 @@ vim.lsp.config("basedpyright", {
       disableOrganizeImports = true, -- ruff handles imports
       analysis = {
         typeCheckingMode = "standard",
+        -- Don't typecheck the whole tree — only buffers you actually open.
+        diagnosticMode = "openFilesOnly",
+        -- Display only (via <leader>jt). Never written into the file.
+        -- No call-arg names — those are the noisy foo(a=1) style inlays.
         inlayHints = {
           variableTypes = true,
           functionReturnTypes = true,
-          callArgumentNames = true,
+          callArgumentNames = false,
         },
       },
     },
   },
 })
 
--- inlay type hints on for python buffers
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("PyInlayHints", { clear = true }),
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client:supports_method "textDocument/inlayHint" then
-      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
-    end
-  end,
-})
-
+-- Inlay type hints start OFF. Toggle display with <leader>jt (python) or
+-- :ToggleInlayHints (any buffer). Showing only — nothing is written to the file.
 vim.api.nvim_create_user_command("ToggleInlayHints", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
-end, { desc = "Toggle LSP inlay type hints" })
+  local bufnr = vim.api.nvim_get_current_buf()
+  local on = not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
+  vim.lsp.inlay_hint.enable(on, { bufnr = bufnr })
+  print("Inlay type hints " .. (on and "on" or "off"))
+end, { desc = "Toggle LSP inlay type hints (display only)" })
 
 -- ruff: lint diagnostics, code actions, import organization, formatting
 vim.lsp.config("ruff", {

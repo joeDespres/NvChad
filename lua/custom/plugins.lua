@@ -182,7 +182,9 @@ local plugins = {
       vim.g.molten_auto_open_output = false
       vim.g.molten_virt_text_output = true -- text output inline below cell
       vim.g.molten_wrap_output = true
-      vim.g.molten_output_win_max_height = 20
+      vim.g.molten_virt_text_max_lines = 24
+      vim.g.molten_output_win_max_height = 30
+      vim.g.molten_output_win_max_width = 120
     end,
   },
   {
