@@ -29,7 +29,10 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
--- load theme
+-- load theme (compile the cache first when it's missing/stale)
+if not vim.uv.fs_stat(vim.g.base46_cache .. "defaults") then
+  require("base46").compile()
+end
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
