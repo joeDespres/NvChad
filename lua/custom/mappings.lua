@@ -92,6 +92,45 @@ M.general = {
     -- Zen mode
     ["<leader>z"] = { "<cmd>ZenMode<CR>", "Zen mode" },
 
+    -- Markdown/LaTeX compile to PDF
+    ["<leader>p"] = {
+      function()
+        local filename = vim.fn.expand "%:t"
+        local filepath = vim.fn.expand "%:p"
+        local filetype = vim.bo.filetype
+        local pdf_name = vim.fn.expand "%:t:r" .. ".pdf"
+
+        if filetype == "markdown" then
+          -- Save first
+          vim.cmd "write"
+          -- Compile markdown to PDF using pandoc
+          local cmd = string.format(
+            'pandoc "%s" -t pdf -o "%s" --pdf-engine=xelatex --standalone',
+            filepath,
+            vim.fn.expand "%:p:h" .. "/" .. pdf_name
+          )
+          local result = vim.fn.system(cmd)
+          if vim.v.shell_error == 0 then
+            -- Open PDF in default viewer
+            vim.fn.system { "open", vim.fn.expand "%:p:h" .. "/" .. pdf_name }
+            print("📄 PDF compiled: " .. pdf_name)
+          else
+            print("❌ Compilation failed: " .. result)
+          end
+        elseif filetype == "tex" or filetype == "latex" then
+          -- Use vimtex to compile and view
+          vim.cmd "VimtexCompile"
+          vim.schedule(function()
+            vim.cmd "VimtexView"
+          end)
+          print("📄 LaTeX compiled and opened")
+        else
+          print("⚠️  Not a markdown or LaTeX file")
+        end
+      end,
+      "Compile to PDF and open",
+    },
+
     -- Quick find and replace word under cursor
     ["<leader>rw"] = { ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace word" },
 
